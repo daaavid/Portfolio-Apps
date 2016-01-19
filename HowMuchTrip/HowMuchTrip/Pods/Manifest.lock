@@ -1,0 +1,65 @@
+PODS:
+  - Alamofire (3.1.4)
+  - Bolts (1.5.0):
+    - Bolts/AppLinks (= 1.5.0)
+    - Bolts/Tasks (= 1.5.0)
+  - Bolts/AppLinks (1.5.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.5.0)
+  - CalendarView (1.1.0):
+    - SwiftMoment (~> 0.1)
+  - Charts (2.1.6)
+  - Crashlytics (3.4.1):
+    - Fabric (~> 1.6.0)
+  - Fabric (1.6.1)
+  - FBSDKCoreKit (4.8.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc (= 4.8.0)
+    - FBSDKCoreKit/no-arc (= 4.8.0)
+  - FBSDKCoreKit/arc (4.8.0):
+    - Bolts (~> 1.1)
+  - FBSDKCoreKit/no-arc (4.8.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc
+  - FBSDKLoginKit (4.8.0):
+    - FBSDKCoreKit
+  - Parse (1.10.0):
+    - Bolts/Tasks (~> 1.5)
+  - ParseFacebookUtilsV4 (1.9.1):
+    - Bolts/Tasks (>= 1.5)
+    - FBSDKCoreKit (~> 4.8)
+    - FBSDKLoginKit (~> 4.8)
+    - Parse (~> 1.9)
+  - ParseTwitterUtils (1.9.1):
+    - Bolts/Tasks (~> 1.5)
+    - Parse (~> 1.9)
+  - SwiftMoment (0.3)
+  - SwiftyJSON (2.3.2)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.1)
+  - CalendarView
+  - Charts
+  - Crashlytics
+  - Fabric
+  - Parse
+  - ParseFacebookUtilsV4
+  - ParseTwitterUtils
+  - SwiftyJSON (~> 2.3)
+
+SPEC CHECKSUMS:
+  Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
+  Bolts: 722ab9a4f8b50fc4ed1b9998a5a7a2b3f16d80b4
+  CalendarView: adad8997eae3474f2cfd8f300a0a16914f4fd4b3
+  Charts: 5e1e5ac23898e5b09d226a2fc3e9d86bc281937e
+  Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
+  Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
+  FBSDKCoreKit: 66a935d17b6e00b6b64e604f2eb9b72c9ab7deb8
+  FBSDKLoginKit: d893fcbb98d854496925e9ff73c67b896982d3c4
+  Parse: 90b2544822200f84b18bfacc4e8b0a3a6c3584a2
+  ParseFacebookUtilsV4: eab9b4ade12f0800b4d30f6b808bca55ce17a0e9
+  ParseTwitterUtils: 41e8849e37db471e874c6e515190ded19e043dc8
+  SwiftMoment: 79f924ccf5450a5406b00eaebe5bfb248cc5e33d
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+
+COCOAPODS: 0.39.0

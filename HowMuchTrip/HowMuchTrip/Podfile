@@ -1,0 +1,29 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, '8.0'
+inhibit_all_warnings!
+# Uncomment this line if you're using Swift
+use_frameworks!
+
+target 'HowMuchTrip' do
+pod 'Charts'
+pod "Parse"
+pod 'CalendarView'
+pod 'ParseFacebookUtilsV4'
+pod 'ParseTwitterUtils'
+pod 'SwiftyJSON', '~> 2.3'
+pod 'Alamofire', '~> 3.1'
+pod 'Fabric'
+pod 'Crashlytics'
+end
+
+target 'HowMuchTripTests' do
+pod 'Charts'
+pod "Parse"
+pod 'CalendarView'
+pod 'ParseFacebookUtilsV4'
+pod 'ParseTwitterUtils'
+pod 'SwiftyJSON', '~> 2.3'
+pod 'Alamofire', '~> 3.1'
+pod 'Fabric'
+pod 'Crashlytics'
+end

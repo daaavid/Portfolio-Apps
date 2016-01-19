@@ -1,0 +1,447 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		632964BB1BF51DA200387878 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632964BA1BF51DA200387878 /* DetailViewController.m */; };
+		6336955D1BF6441100F897A0 /* ActorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6336955C1BF6441000F897A0 /* ActorTableViewController.m */; };
+		633695621BF6617C00F897A0 /* ReviewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633695611BF6617C00F897A0 /* ReviewsTableViewController.m */; };
+		633695651BF66AD500F897A0 /* tomato.png in Resources */ = {isa = PBXBuildFile; fileRef = 633695641BF66AD500F897A0 /* tomato.png */; };
+		635DAF4D1BF4FB5C00326E43 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 635DAF4C1BF4FB5C00326E43 /* main.m */; };
+		635DAF501BF4FB5C00326E43 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 635DAF4F1BF4FB5C00326E43 /* AppDelegate.m */; };
+		635DAF561BF4FB5C00326E43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 635DAF541BF4FB5C00326E43 /* Main.storyboard */; };
+		635DAF581BF4FB5C00326E43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 635DAF571BF4FB5C00326E43 /* Assets.xcassets */; };
+		635DAF5B1BF4FB5C00326E43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 635DAF591BF4FB5C00326E43 /* LaunchScreen.storyboard */; };
+		635DAF671BF5046200326E43 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 635DAF661BF5046200326E43 /* SearchTableViewController.m */; };
+		637FA8F41BF58A1A00564CC8 /* movieMania.png in Resources */ = {isa = PBXBuildFile; fileRef = 637FA8F21BF58A1A00564CC8 /* movieMania.png */; };
+		63876E9A1BF7943600106EB6 /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63876E991BF7943600106EB6 /* HistoryTableViewController.m */; };
+		639811C11BF66C46006C9AE0 /* metacritic.png in Resources */ = {isa = PBXBuildFile; fileRef = 639811C01BF66C46006C9AE0 /* metacritic.png */; };
+		63A6190B1BF6F40F0073435C /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A6190A1BF6F40F0073435C /* Movie.m */; };
+		63A619151BF7029B0073435C /* WebController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A619141BF7029B0073435C /* WebController.m */; };
+		63A619181BF710940073435C /* GenreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A619171BF710940073435C /* GenreTableViewController.m */; };
+		63A6191E1BF7148C0073435C /* PosterZoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A6191D1BF7148C0073435C /* PosterZoomViewController.m */; };
+		63F1E07B1BF689C40018933F /* movieManiaWheel.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F1E07A1BF689C40018933F /* movieManiaWheel.png */; };
+		63F1E07D1BF68AC90018933F /* movieManiaWheel2.png in Resources */ = {isa = PBXBuildFile; fileRef = 63F1E07C1BF68AC90018933F /* movieManiaWheel2.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		632964B91BF51DA200387878 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		632964BA1BF51DA200387878 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		6336955B1BF6441000F897A0 /* ActorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActorTableViewController.h; sourceTree = "<group>"; };
+		6336955C1BF6441000F897A0 /* ActorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActorTableViewController.m; sourceTree = "<group>"; };
+		633695601BF6617C00F897A0 /* ReviewsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewsTableViewController.h; sourceTree = "<group>"; };
+		633695611BF6617C00F897A0 /* ReviewsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewsTableViewController.m; sourceTree = "<group>"; };
+		633695641BF66AD500F897A0 /* tomato.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tomato.png; sourceTree = "<group>"; };
+		635DAF481BF4FB5C00326E43 /* Movie Mania.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie Mania.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		635DAF4C1BF4FB5C00326E43 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		635DAF4E1BF4FB5C00326E43 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		635DAF4F1BF4FB5C00326E43 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		635DAF551BF4FB5C00326E43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		635DAF571BF4FB5C00326E43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		635DAF5A1BF4FB5C00326E43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		635DAF5C1BF4FB5C00326E43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		635DAF651BF5046200326E43 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchTableViewController.h; path = ../SearchTableViewController.h; sourceTree = "<group>"; };
+		635DAF661BF5046200326E43 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchTableViewController.m; path = ../SearchTableViewController.m; sourceTree = "<group>"; };
+		637FA8F21BF58A1A00564CC8 /* movieMania.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movieMania.png; sourceTree = "<group>"; };
+		63876E981BF7943600106EB6 /* HistoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTableViewController.h; sourceTree = "<group>"; };
+		63876E991BF7943600106EB6 /* HistoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewController.m; sourceTree = "<group>"; };
+		639811C01BF66C46006C9AE0 /* metacritic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = metacritic.png; sourceTree = "<group>"; };
+		63A619091BF6F40F0073435C /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
+		63A6190A1BF6F40F0073435C /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
+		63A619131BF7029B0073435C /* WebController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebController.h; path = ../WebController.h; sourceTree = "<group>"; };
+		63A619141BF7029B0073435C /* WebController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebController.m; path = ../WebController.m; sourceTree = "<group>"; };
+		63A619161BF710940073435C /* GenreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenreTableViewController.h; sourceTree = "<group>"; };
+		63A619171BF710940073435C /* GenreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenreTableViewController.m; sourceTree = "<group>"; };
+		63A6191C1BF7148C0073435C /* PosterZoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosterZoomViewController.h; sourceTree = "<group>"; };
+		63A6191D1BF7148C0073435C /* PosterZoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PosterZoomViewController.m; sourceTree = "<group>"; };
+		63F1E07A1BF689C40018933F /* movieManiaWheel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movieManiaWheel.png; sourceTree = "<group>"; };
+		63F1E07C1BF68AC90018933F /* movieManiaWheel2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movieManiaWheel2.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		635DAF451BF4FB5C00326E43 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6336955E1BF6613D00F897A0 /* DetailVC */ = {
+			isa = PBXGroup;
+			children = (
+				632964B91BF51DA200387878 /* DetailViewController.h */,
+				632964BA1BF51DA200387878 /* DetailViewController.m */,
+				63876E971BF7935900106EB6 /* Poster Zoom Popover */,
+				63A619191BF7109A0073435C /* E - GenreVC */,
+				6336955F1BF6614900F897A0 /* E - ActorVC */,
+				633695631BF6618F00F897A0 /* E - ReviewVC */,
+			);
+			name = DetailVC;
+			sourceTree = "<group>";
+		};
+		6336955F1BF6614900F897A0 /* E - ActorVC */ = {
+			isa = PBXGroup;
+			children = (
+				6336955B1BF6441000F897A0 /* ActorTableViewController.h */,
+				6336955C1BF6441000F897A0 /* ActorTableViewController.m */,
+			);
+			name = "E - ActorVC";
+			sourceTree = "<group>";
+		};
+		633695631BF6618F00F897A0 /* E - ReviewVC */ = {
+			isa = PBXGroup;
+			children = (
+				633695601BF6617C00F897A0 /* ReviewsTableViewController.h */,
+				633695611BF6617C00F897A0 /* ReviewsTableViewController.m */,
+			);
+			name = "E - ReviewVC";
+			sourceTree = "<group>";
+		};
+		635DAF3F1BF4FB5C00326E43 = {
+			isa = PBXGroup;
+			children = (
+				635DAF4A1BF4FB5C00326E43 /* Movie Mania */,
+				635DAF491BF4FB5C00326E43 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		635DAF491BF4FB5C00326E43 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				635DAF481BF4FB5C00326E43 /* Movie Mania.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		635DAF4A1BF4FB5C00326E43 /* Movie Mania */ = {
+			isa = PBXGroup;
+			children = (
+				635DAF541BF4FB5C00326E43 /* Main.storyboard */,
+				635DAF651BF5046200326E43 /* SearchTableViewController.h */,
+				635DAF661BF5046200326E43 /* SearchTableViewController.m */,
+				63876E981BF7943600106EB6 /* HistoryTableViewController.h */,
+				63876E991BF7943600106EB6 /* HistoryTableViewController.m */,
+				63A6191A1BF710B50073435C /* movies and how to get them */,
+				6336955E1BF6613D00F897A0 /* DetailVC */,
+				63A6191B1BF710E60073435C /* img resources */,
+				635DAF681BF509FC00326E43 /* other */,
+				635DAF4B1BF4FB5C00326E43 /* Supporting Files */,
+			);
+			path = "Movie Mania";
+			sourceTree = "<group>";
+		};
+		635DAF4B1BF4FB5C00326E43 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				635DAF4C1BF4FB5C00326E43 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		635DAF681BF509FC00326E43 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				639811C21BF66C51006C9AE0 /* review img */,
+				635DAF4E1BF4FB5C00326E43 /* AppDelegate.h */,
+				635DAF4F1BF4FB5C00326E43 /* AppDelegate.m */,
+				635DAF571BF4FB5C00326E43 /* Assets.xcassets */,
+				635DAF591BF4FB5C00326E43 /* LaunchScreen.storyboard */,
+				635DAF5C1BF4FB5C00326E43 /* Info.plist */,
+			);
+			name = other;
+			sourceTree = "<group>";
+		};
+		63876E971BF7935900106EB6 /* Poster Zoom Popover */ = {
+			isa = PBXGroup;
+			children = (
+				63A6191C1BF7148C0073435C /* PosterZoomViewController.h */,
+				63A6191D1BF7148C0073435C /* PosterZoomViewController.m */,
+			);
+			name = "Poster Zoom Popover";
+			sourceTree = "<group>";
+		};
+		639811C21BF66C51006C9AE0 /* review img */ = {
+			isa = PBXGroup;
+			children = (
+				633695641BF66AD500F897A0 /* tomato.png */,
+				639811C01BF66C46006C9AE0 /* metacritic.png */,
+			);
+			name = "review img";
+			sourceTree = "<group>";
+		};
+		63A619191BF7109A0073435C /* E - GenreVC */ = {
+			isa = PBXGroup;
+			children = (
+				63A619161BF710940073435C /* GenreTableViewController.h */,
+				63A619171BF710940073435C /* GenreTableViewController.m */,
+			);
+			name = "E - GenreVC";
+			sourceTree = "<group>";
+		};
+		63A6191A1BF710B50073435C /* movies and how to get them */ = {
+			isa = PBXGroup;
+			children = (
+				63A619091BF6F40F0073435C /* Movie.h */,
+				63A6190A1BF6F40F0073435C /* Movie.m */,
+				63A619131BF7029B0073435C /* WebController.h */,
+				63A619141BF7029B0073435C /* WebController.m */,
+			);
+			name = "movies and how to get them";
+			sourceTree = "<group>";
+		};
+		63A6191B1BF710E60073435C /* img resources */ = {
+			isa = PBXGroup;
+			children = (
+				63F1E07C1BF68AC90018933F /* movieManiaWheel2.png */,
+				63F1E07A1BF689C40018933F /* movieManiaWheel.png */,
+				637FA8F21BF58A1A00564CC8 /* movieMania.png */,
+			);
+			name = "img resources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		635DAF471BF4FB5C00326E43 /* Movie Mania */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 635DAF5F1BF4FB5C00326E43 /* Build configuration list for PBXNativeTarget "Movie Mania" */;
+			buildPhases = (
+				635DAF441BF4FB5C00326E43 /* Sources */,
+				635DAF451BF4FB5C00326E43 /* Frameworks */,
+				635DAF461BF4FB5C00326E43 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Movie Mania";
+			productName = "Movie Mania";
+			productReference = 635DAF481BF4FB5C00326E43 /* Movie Mania.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		635DAF401BF4FB5C00326E43 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "The Iron Yard";
+				TargetAttributes = {
+					635DAF471BF4FB5C00326E43 = {
+						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = 95P55J7Q5M;
+					};
+				};
+			};
+			buildConfigurationList = 635DAF431BF4FB5C00326E43 /* Build configuration list for PBXProject "Movie Mania" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 635DAF3F1BF4FB5C00326E43;
+			productRefGroup = 635DAF491BF4FB5C00326E43 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				635DAF471BF4FB5C00326E43 /* Movie Mania */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		635DAF461BF4FB5C00326E43 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				635DAF5B1BF4FB5C00326E43 /* LaunchScreen.storyboard in Resources */,
+				63F1E07D1BF68AC90018933F /* movieManiaWheel2.png in Resources */,
+				635DAF581BF4FB5C00326E43 /* Assets.xcassets in Resources */,
+				635DAF561BF4FB5C00326E43 /* Main.storyboard in Resources */,
+				639811C11BF66C46006C9AE0 /* metacritic.png in Resources */,
+				63F1E07B1BF689C40018933F /* movieManiaWheel.png in Resources */,
+				637FA8F41BF58A1A00564CC8 /* movieMania.png in Resources */,
+				633695651BF66AD500F897A0 /* tomato.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		635DAF441BF4FB5C00326E43 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				635DAF671BF5046200326E43 /* SearchTableViewController.m in Sources */,
+				63876E9A1BF7943600106EB6 /* HistoryTableViewController.m in Sources */,
+				635DAF501BF4FB5C00326E43 /* AppDelegate.m in Sources */,
+				63A6190B1BF6F40F0073435C /* Movie.m in Sources */,
+				63A619181BF710940073435C /* GenreTableViewController.m in Sources */,
+				63A619151BF7029B0073435C /* WebController.m in Sources */,
+				635DAF4D1BF4FB5C00326E43 /* main.m in Sources */,
+				63A6191E1BF7148C0073435C /* PosterZoomViewController.m in Sources */,
+				632964BB1BF51DA200387878 /* DetailViewController.m in Sources */,
+				6336955D1BF6441100F897A0 /* ActorTableViewController.m in Sources */,
+				633695621BF6617C00F897A0 /* ReviewsTableViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		635DAF541BF4FB5C00326E43 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				635DAF551BF4FB5C00326E43 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		635DAF591BF4FB5C00326E43 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				635DAF5A1BF4FB5C00326E43 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		635DAF5D1BF4FB5C00326E43 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		635DAF5E1BF4FB5C00326E43 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		635DAF601BF4FB5C00326E43 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Movie Mania/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tiy.MovieMania;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		635DAF611BF4FB5C00326E43 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Movie Mania/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tiy.MovieMania;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		635DAF431BF4FB5C00326E43 /* Build configuration list for PBXProject "Movie Mania" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				635DAF5D1BF4FB5C00326E43 /* Debug */,
+				635DAF5E1BF4FB5C00326E43 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		635DAF5F1BF4FB5C00326E43 /* Build configuration list for PBXNativeTarget "Movie Mania" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				635DAF601BF4FB5C00326E43 /* Debug */,
+				635DAF611BF4FB5C00326E43 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 635DAF401BF4FB5C00326E43 /* Project object */;
+}
