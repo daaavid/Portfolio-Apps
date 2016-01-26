@@ -6,7 +6,7 @@
 //  Copyright © 2016 david. All rights reserved.
 //
 
-#import "LocationCell.h"
+#import "ForecastCell.h"
 
 @implementation ForecastCell
 
