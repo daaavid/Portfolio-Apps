@@ -16,5 +16,6 @@ typedef enum {
 @interface TimeOfDay : NSObject
 
 + (DayOrNightIdentifier)DayOrNight;
++ (NSArray *)getUpcomingDaysOfWeekFromToday;
 
 @end

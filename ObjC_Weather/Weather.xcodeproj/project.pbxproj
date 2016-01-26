@@ -16,6 +16,14 @@
 		633379C81C51B01B001C5C9D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633379C71C51B01B001C5C9D /* MainViewController.m */; };
 		633379CB1C51B03B001C5C9D /* WeatherTableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633379CA1C51B03B001C5C9D /* WeatherTableTableViewController.m */; };
 		633379CE1C51CB1D001C5C9D /* APIController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633379CD1C51CB1D001C5C9D /* APIController.m */; };
+		635054911C57F341006263B0 /* YLMomentRelativeTimeLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 635054771C57F341006263B0 /* YLMomentRelativeTimeLocalizable.strings */; };
+		635054921C57F341006263B0 /* YLMoment+Bundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 635054831C57F341006263B0 /* YLMoment+Bundle.m */; };
+		635054931C57F341006263B0 /* YLMoment+Components.m in Sources */ = {isa = PBXBuildFile; fileRef = 635054851C57F341006263B0 /* YLMoment+Components.m */; };
+		635054941C57F341006263B0 /* YLMoment+Description.m in Sources */ = {isa = PBXBuildFile; fileRef = 635054871C57F341006263B0 /* YLMoment+Description.m */; };
+		635054951C57F341006263B0 /* YLMoment+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 635054891C57F341006263B0 /* YLMoment+Helpers.m */; };
+		635054961C57F341006263B0 /* YLMoment+Manipulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6350548B1C57F341006263B0 /* YLMoment+Manipulation.m */; };
+		635054971C57F341006263B0 /* YLMoment+RelativeTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6350548D1C57F341006263B0 /* YLMoment+RelativeTime.m */; };
+		635054981C57F341006263B0 /* YLMomentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 635054901C57F341006263B0 /* YLMomentObject.m */; };
 		6362289C1C57449A00C23FF8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6362289B1C57449A00C23FF8 /* Default-568h@2x.png */; };
 		6362822C1C520D16009C12B1 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 6362822B1C520D16009C12B1 /* Location.m */; };
 		636282311C5214F5009C12B1 /* Weather.m in Sources */ = {isa = PBXBuildFile; fileRef = 636282301C5214F5009C12B1 /* Weather.m */; };
@@ -41,6 +49,31 @@
 		633379CA1C51B03B001C5C9D /* WeatherTableTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherTableTableViewController.m; sourceTree = "<group>"; };
 		633379CC1C51CB1D001C5C9D /* APIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIController.h; sourceTree = "<group>"; };
 		633379CD1C51CB1D001C5C9D /* APIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIController.m; sourceTree = "<group>"; };
+		635054781C57F341006263B0 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		635054791C57F341006263B0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		6350547A1C57F341006263B0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		6350547B1C57F341006263B0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		6350547C1C57F341006263B0 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		6350547D1C57F341006263B0 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		6350547E1C57F341006263B0 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		6350547F1C57F341006263B0 /* sq */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sq; path = sq.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		635054801C57F341006263B0 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		635054811C57F341006263B0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
+		635054821C57F341006263B0 /* YLMoment+Bundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YLMoment+Bundle.h"; sourceTree = "<group>"; };
+		635054831C57F341006263B0 /* YLMoment+Bundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YLMoment+Bundle.m"; sourceTree = "<group>"; };
+		635054841C57F341006263B0 /* YLMoment+Components.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YLMoment+Components.h"; sourceTree = "<group>"; };
+		635054851C57F341006263B0 /* YLMoment+Components.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YLMoment+Components.m"; sourceTree = "<group>"; };
+		635054861C57F341006263B0 /* YLMoment+Description.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YLMoment+Description.h"; sourceTree = "<group>"; };
+		635054871C57F341006263B0 /* YLMoment+Description.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YLMoment+Description.m"; sourceTree = "<group>"; };
+		635054881C57F341006263B0 /* YLMoment+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YLMoment+Helpers.h"; sourceTree = "<group>"; };
+		635054891C57F341006263B0 /* YLMoment+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YLMoment+Helpers.m"; sourceTree = "<group>"; };
+		6350548A1C57F341006263B0 /* YLMoment+Manipulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YLMoment+Manipulation.h"; sourceTree = "<group>"; };
+		6350548B1C57F341006263B0 /* YLMoment+Manipulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YLMoment+Manipulation.m"; sourceTree = "<group>"; };
+		6350548C1C57F341006263B0 /* YLMoment+RelativeTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YLMoment+RelativeTime.h"; sourceTree = "<group>"; };
+		6350548D1C57F341006263B0 /* YLMoment+RelativeTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YLMoment+RelativeTime.m"; sourceTree = "<group>"; };
+		6350548E1C57F341006263B0 /* YLMoment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLMoment.h; sourceTree = "<group>"; };
+		6350548F1C57F341006263B0 /* YLMomentObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLMomentObject.h; sourceTree = "<group>"; };
+		635054901C57F341006263B0 /* YLMomentObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLMomentObject.m; sourceTree = "<group>"; };
 		6362289B1C57449A00C23FF8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6362822A1C520D16009C12B1 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		6362822B1C520D16009C12B1 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
@@ -115,6 +148,7 @@
 				633379A41C51ADA9001C5C9D /* Assets.xcassets */,
 				633379A61C51ADA9001C5C9D /* LaunchScreen.storyboard */,
 				633379A91C51ADA9001C5C9D /* Info.plist */,
+				635054751C57F341006263B0 /* YLMoment */,
 			);
 			name = other;
 			sourceTree = "<group>";
@@ -128,6 +162,37 @@
 				63E8945D1C55EEE200859C55 /* ViewManager.m */,
 			);
 			name = "view managers";
+			sourceTree = "<group>";
+		};
+		635054751C57F341006263B0 /* YLMoment */ = {
+			isa = PBXGroup;
+			children = (
+				635054761C57F341006263B0 /* Localization */,
+				635054821C57F341006263B0 /* YLMoment+Bundle.h */,
+				635054831C57F341006263B0 /* YLMoment+Bundle.m */,
+				635054841C57F341006263B0 /* YLMoment+Components.h */,
+				635054851C57F341006263B0 /* YLMoment+Components.m */,
+				635054861C57F341006263B0 /* YLMoment+Description.h */,
+				635054871C57F341006263B0 /* YLMoment+Description.m */,
+				635054881C57F341006263B0 /* YLMoment+Helpers.h */,
+				635054891C57F341006263B0 /* YLMoment+Helpers.m */,
+				6350548A1C57F341006263B0 /* YLMoment+Manipulation.h */,
+				6350548B1C57F341006263B0 /* YLMoment+Manipulation.m */,
+				6350548C1C57F341006263B0 /* YLMoment+RelativeTime.h */,
+				6350548D1C57F341006263B0 /* YLMoment+RelativeTime.m */,
+				6350548E1C57F341006263B0 /* YLMoment.h */,
+				6350548F1C57F341006263B0 /* YLMomentObject.h */,
+				635054901C57F341006263B0 /* YLMomentObject.m */,
+			);
+			path = YLMoment;
+			sourceTree = "<group>";
+		};
+		635054761C57F341006263B0 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				635054771C57F341006263B0 /* YLMomentRelativeTimeLocalizable.strings */,
+			);
+			path = Localization;
 			sourceTree = "<group>";
 		};
 		6362289A1C57448700C23FF8 /* WeatherTableVC */ = {
@@ -207,6 +272,15 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
+				es,
+				fr,
+				ja,
+				nl,
+				pt,
+				sq,
+				vi,
+				zh,
 			);
 			mainGroup = 633379861C51ADA9001C5C9D;
 			productRefGroup = 633379901C51ADA9001C5C9D /* Products */;
@@ -228,6 +302,7 @@
 				633379A51C51ADA9001C5C9D /* Assets.xcassets in Resources */,
 				6362289C1C57449A00C23FF8 /* Default-568h@2x.png in Resources */,
 				633379A31C51ADA9001C5C9D /* Main.storyboard in Resources */,
+				635054911C57F341006263B0 /* YLMomentRelativeTimeLocalizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,8 +314,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				633379971C51ADA9001C5C9D /* AppDelegate.m in Sources */,
+				635054931C57F341006263B0 /* YLMoment+Components.m in Sources */,
 				63E8945B1C55C1BD00859C55 /* AnimationManager.m in Sources */,
+				635054971C57F341006263B0 /* YLMoment+RelativeTime.m in Sources */,
+				635054961C57F341006263B0 /* YLMoment+Manipulation.m in Sources */,
+				635054921C57F341006263B0 /* YLMoment+Bundle.m in Sources */,
 				633379CE1C51CB1D001C5C9D /* APIController.m in Sources */,
+				635054951C57F341006263B0 /* YLMoment+Helpers.m in Sources */,
+				635054941C57F341006263B0 /* YLMoment+Description.m in Sources */,
 				636282341C521C38009C12B1 /* ForecastCell.m in Sources */,
 				636282311C5214F5009C12B1 /* Weather.m in Sources */,
 				633379CB1C51B03B001C5C9D /* WeatherTableTableViewController.m in Sources */,
@@ -249,6 +330,7 @@
 				63E894611C56010E00859C55 /* TimeOfDay.m in Sources */,
 				6362822C1C520D16009C12B1 /* Location.m in Sources */,
 				633379941C51ADA9001C5C9D /* main.m in Sources */,
+				635054981C57F341006263B0 /* YLMomentObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +351,23 @@
 				633379A71C51ADA9001C5C9D /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		635054771C57F341006263B0 /* YLMomentRelativeTimeLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				635054781C57F341006263B0 /* de */,
+				635054791C57F341006263B0 /* en */,
+				6350547A1C57F341006263B0 /* es */,
+				6350547B1C57F341006263B0 /* fr */,
+				6350547C1C57F341006263B0 /* ja */,
+				6350547D1C57F341006263B0 /* nl */,
+				6350547E1C57F341006263B0 /* pt */,
+				6350547F1C57F341006263B0 /* sq */,
+				635054801C57F341006263B0 /* vi */,
+				635054811C57F341006263B0 /* zh */,
+			);
+			name = YLMomentRelativeTimeLocalizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

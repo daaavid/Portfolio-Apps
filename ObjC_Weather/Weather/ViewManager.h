@@ -15,5 +15,6 @@
 + (void)setViewCornerRadius:(UIView *)view cornerRadius:(CGFloat)cornerRadius;
 + (void)setViewShadow:(UIView *)view;
 + (void)addActivitySpinner:(UIView *)view toFrame:(CGRect)frame;
++ (void)flipViews:(NSArray *)views random:(BOOL)random;
 
 @end

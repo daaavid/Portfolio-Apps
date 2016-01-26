@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "YLMoment.h"
 
 @interface Weather : NSObject
 
@@ -23,16 +24,13 @@
 
 @property (nonatomic) NSNumber *humidity;
 
-//- (instancetype)init:(NSNumber *)temperature
-//    apparentTemperature     :(NSNumber *)apparentTemperature
-//    summary                 :(NSString *)summary
-//    icon                    :(NSString *)icon
-//    precipitationProbability:(NSNumber *)precipitationProbability
-//    precipitationIntensity  :(NSNumber *)precipitationIntensity
-//                 windSpeed  :(NSNumber *)windSpeed
-//                  humidity  :(NSNumber *)humidity;
+@property (nonatomic) YLMoment *time;
+
+//
+
+@property (nonatomic) NSString *weeklyForecastSummary;
+@property (nonatomic) NSMutableArray *weeklyForecast;
 
 - (Weather *)initWithResults:(NSDictionary *)results;
-
 
 @end

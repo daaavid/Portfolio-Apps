@@ -26,4 +26,51 @@
     }
 }
 
++ (NSArray *)getUpcomingDaysOfWeekFromToday
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    NSInteger weekday = [[calendar components:NSCalendarUnitWeekday fromDate:[[NSDate alloc] init]] weekday];
+    
+    NSMutableArray *weekdays = [[NSMutableArray alloc] init];
+    
+    for (int loopFor = 7; loopFor > 0; loopFor--)
+    {
+        [weekdays addObject:[self assignDay:weekday]];
+        weekday += 1;
+    }
+    
+    return weekdays;
+}
+
++ (NSString *)assignDay:(NSInteger)day
+{
+    if (day > 7)
+    {
+        day -= 7;
+    }
+    
+    NSString *dayStr = [[NSString alloc] init];
+    
+    if (day == 1) {
+        dayStr = @"Sunday";
+    } else if (day == 2) {
+        dayStr = @"Monday";
+    } else if (day == 3) {
+        dayStr = @"Tuesday";
+    } else if (day == 4) {
+        dayStr = @"Wednesday";
+    } else if (day == 5) {
+        dayStr = @"Thursday";
+    } else if (day == 6) {
+        dayStr = @"Friday";
+    } else if (day == 7) {
+        dayStr = @"Saturday";
+    }
+    
+    return dayStr;
+}
+
 @end

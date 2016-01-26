@@ -46,4 +46,22 @@
     });
 }
 
++ (void)flipViews:(NSArray *)views random:(BOOL)random
+{
+    BOOL flipView = YES;
+    
+    for (UIView *view in views)
+    {
+        if (random)
+        {
+            flipView = (0 == arc4random_uniform(1));
+        }
+        
+        if (flipView)
+        {
+            [view setTransform:CGAffineTransformMakeScale(-1, 1)];
+        }
+    }
+}
+
 @end

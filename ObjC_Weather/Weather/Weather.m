@@ -16,8 +16,8 @@ summary                 :(NSString *)summary
 icon                    :(NSString *)icon
 precipitationProbability:(NSNumber *)precipitationProbability
 precipitationIntensity  :(NSNumber *)precipitationIntensity
-         windSpeed  :(NSNumber *)windSpeed
-          humidity  :(NSNumber *)humidity;
+         windSpeed      :(NSNumber *)windSpeed
+          humidity      :(NSNumber *)humidity;
 {
     if (self = [super init])
     {
@@ -40,30 +40,81 @@ precipitationIntensity  :(NSNumber *)precipitationIntensity
     NSDictionary *currently = (NSDictionary *)results[@"currently"];
     if (currently)
     {
-        NSNumber *temperature            = [self formattedTemperature: (NSNumber *)currently[@"temperature"]];
-        NSNumber *apparentTemprature    = [self formattedTemperature: (NSNumber *)currently[@"apparentTemperature"]];
-        
-        NSString *summary       = (NSString *)currently[@"summary"];
-        NSString *icon          = (NSString *)currently[@"icon"];
-        NSNumber *precipProb    = (NSNumber *)currently[@"precipProbability"];
-        NSNumber *precipIntens  = (NSNumber *)currently[@"precipIntensity"];
-        NSNumber *windSpeed     = (NSNumber *)currently[@"windSpeed"];
-        NSNumber *humidity      = (NSNumber *)currently[@"dewPoint"];
-        
-        weather = [[Weather alloc]
-                   init:temperature
-                   apparentTemperature:apparentTemprature
-                   summary:summary
-                   icon:icon
-                   precipitationProbability:precipProb
-                   precipitationIntensity:precipIntens
-                   windSpeed:windSpeed
-                   humidity:humidity
-                   ];
+        weather = [self initWithDictionary:currently];
     }
     
+    NSDictionary *daily = (NSDictionary *)results[@"daily"];
+    if (daily)
+    {
+        weather.weeklyForecast = [[NSMutableArray alloc] init];
+        NSArray *data = (NSArray *)daily[@"data"];
+        for (NSDictionary *forecast in data)
+        {
+            Weather *weekday = [[Weather alloc] initWithDictionary:forecast];
+            [weather.weeklyForecast addObject:weekday];
+        }
+    }
     
     return weather;
+}
+
+- (Weather *)initWithDictionary:(NSDictionary *)dictionary
+{
+    Weather *weather = [[Weather alloc] init];
+    
+    NSNumber *temperature;
+    NSNumber *apparentTemperature;
+    
+    if (dictionary[@"temperature"] && dictionary[@"apparentTemperature"])
+    {
+        temperature         = [self formattedTemperature: (NSNumber *)dictionary[@"temperature"]];
+        apparentTemperature = [self formattedTemperature: (NSNumber *)dictionary[@"apparentTemperature"]];
+    }
+    else
+    {
+        /*
+         the daiy forecast dictionaries don't have "temperature" and "apparentTemperature" keys,
+         so if that above if statement fails,
+         that means we're currently parsing the weekly forecast (daily) dictionaries instead of todays (currently) dictionary
+         */
+        
+        NSNumber *temperatureMin            = (NSNumber *)dictionary[@"temperatureMin"];
+        NSNumber *temperatureMax            = (NSNumber *)dictionary[@"temperatureMax"];
+        
+        temperature                         = [self getAverageTemperatureFromMin:temperatureMin max:temperatureMax];
+        
+        NSNumber *apparentTemperatureMin    = (NSNumber *)dictionary[@"apparentTemperatureMin"];
+        NSNumber *apparentTemperatureMax    = (NSNumber *)dictionary[@"apparentTemperatureMax"];
+        
+        apparentTemperature                 = [self getAverageTemperatureFromMin:apparentTemperatureMin max:apparentTemperatureMax];
+    }
+    
+    NSString *summary       = (NSString *)dictionary[@"summary"];
+    NSString *icon          = (NSString *)dictionary[@"icon"];
+    NSNumber *precipProb    = (NSNumber *)dictionary[@"precipProbability"];
+    NSNumber *precipIntens  = (NSNumber *)dictionary[@"precipIntensity"];
+    NSNumber *windSpeed     = (NSNumber *)dictionary[@"windSpeed"];
+    NSNumber *humidity      = (NSNumber *)dictionary[@"dewPoint"];
+    
+    weather = [[Weather alloc]
+               init                     :temperature
+               apparentTemperature      :apparentTemperature
+               summary                  :summary
+               icon                     :icon
+               precipitationProbability :precipProb
+               precipitationIntensity   :precipIntens
+               windSpeed                :windSpeed
+               humidity                 :humidity
+               ];
+    
+    return weather;
+}
+
+- (NSNumber *)getAverageTemperatureFromMin:(NSNumber *)temperatureMin max:(NSNumber *)temperatureMax
+{
+    return [self formattedTemperature:
+                             [NSNumber numberWithDouble:
+                              (([temperatureMin doubleValue] + [temperatureMax doubleValue])/2)]];
 }
 
 - (NSNumber *)formattedTemperature:(NSNumber *)temperature;
