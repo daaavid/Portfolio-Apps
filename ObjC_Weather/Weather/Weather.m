@@ -10,14 +10,15 @@
 
 @implementation Weather
 
-- (instancetype)init:(NSNumber *)temperature
+- (instancetype)init    :(NSNumber *)temperature
 apparentTemperature     :(NSNumber *)apparentTemperature
 summary                 :(NSString *)summary
 icon                    :(NSString *)icon
 precipitationProbability:(NSNumber *)precipitationProbability
 precipitationIntensity  :(NSNumber *)precipitationIntensity
-         windSpeed      :(NSNumber *)windSpeed
-          humidity      :(NSNumber *)humidity;
+windSpeed               :(NSNumber *)windSpeed
+humidity                :(NSNumber *)humidity
+date                    :(NSDate *)date;
 {
     if (self = [super init])
     {
@@ -29,10 +30,12 @@ precipitationIntensity  :(NSNumber *)precipitationIntensity
         _precipitationIntensity     = precipitationIntensity;
         _windSpeed                  = windSpeed;
         _humidity                   = humidity;
+        _date                       = date;
     }
     return self;
 }
 
+///Initializes a master weather object with current weather and daily/hourly forecasts
 - (Weather *)initWithResults:(NSDictionary *)results;
 {
     Weather *weather = [[Weather alloc] init];
@@ -44,20 +47,38 @@ precipitationIntensity  :(NSNumber *)precipitationIntensity
     }
     
     NSDictionary *daily = (NSDictionary *)results[@"daily"];
-    if (daily)
-    {
-        weather.weeklyForecast = [[NSMutableArray alloc] init];
-        NSArray *data = (NSArray *)daily[@"data"];
-        for (NSDictionary *forecast in data)
-        {
-            Weather *weekday = [[Weather alloc] initWithDictionary:forecast];
-            [weather.weeklyForecast addObject:weekday];
-        }
-    }
-    
+    weather.dailyForecast = [[NSArray alloc] init];
+    weather.dailyForecast = [self getForecastArrayFromDictionary:daily];
+
+    NSDictionary *hourly = (NSDictionary *)results[@"hourly"];
+    weather.hourlyForecast = [[NSArray alloc] init];
+    weather.hourlyForecast = [self getForecastArrayFromDictionary:hourly];    
+
     return weather;
 }
 
+///Returns an array of weather objects (for weekly and hourly forecasts)
+- (NSArray *)getForecastArrayFromDictionary:(NSDictionary *)dictionary
+{
+    NSArray *data = (NSArray *)dictionary[@"data"];
+    
+    if (data)
+    {
+        NSMutableArray *forecastArr = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *forecast in data)
+        {
+            Weather *weather = [[Weather alloc] initWithDictionary:forecast];
+            [forecastArr addObject:weather];
+        }
+            
+        return forecastArr;
+    }
+    
+    return nil;
+}
+
+///Exactly what it says on the tin. Initializes a weather object from a provided dictionary argument. Ezpz.
 - (Weather *)initWithDictionary:(NSDictionary *)dictionary
 {
     Weather *weather = [[Weather alloc] init];
@@ -73,9 +94,9 @@ precipitationIntensity  :(NSNumber *)precipitationIntensity
     else
     {
         /*
-         the daiy forecast dictionaries don't have "temperature" and "apparentTemperature" keys,
+         alright so the daiy forecast dictionaries don't have "temperature" and "apparentTemperature" keys,
          so if that above if statement fails,
-         that means we're currently parsing the weekly forecast (daily) dictionaries instead of todays (currently) dictionary
+         that means we're currently parsing the weekly/hourly forecast dictionaries instead of todays (currently) dictionary
          */
         
         NSNumber *temperatureMin            = (NSNumber *)dictionary[@"temperatureMin"];
@@ -88,6 +109,11 @@ precipitationIntensity  :(NSNumber *)precipitationIntensity
         
         apparentTemperature                 = [self getAverageTemperatureFromMin:apparentTemperatureMin max:apparentTemperatureMax];
     }
+    
+    NSNumber *time          = (NSNumber *)dictionary[@"time"];
+    NSDate *date            = [[NSDate alloc] initWithTimeIntervalSince1970:[time doubleValue]];
+    
+//    NSLog(@"%@, %@", time, date);
     
     NSString *summary       = (NSString *)dictionary[@"summary"];
     NSString *icon          = (NSString *)dictionary[@"icon"];
@@ -105,11 +131,13 @@ precipitationIntensity  :(NSNumber *)precipitationIntensity
                precipitationIntensity   :precipIntens
                windSpeed                :windSpeed
                humidity                 :humidity
+               date                     :date
                ];
     
     return weather;
 }
 
+///For future dates, Darksky provides a temperature range instead of a single temperature value. This function just gets the formatted average of both numbers. Not very accurate, I guess, but it's for the sake of readability
 - (NSNumber *)getAverageTemperatureFromMin:(NSNumber *)temperatureMin max:(NSNumber *)temperatureMax
 {
     return [self formattedTemperature:
@@ -117,16 +145,24 @@ precipitationIntensity  :(NSNumber *)precipitationIntensity
                               (([temperatureMin doubleValue] + [temperatureMax doubleValue])/2)]];
 }
 
+///Rounds up temperature to the nearest whole number for readability purposes
 - (NSNumber *)formattedTemperature:(NSNumber *)temperature;
 {
     NSArray *fullTemperature = [[temperature stringValue] componentsSeparatedByString:@"."];
-    double firstNumber = [fullTemperature[0] doubleValue];
-    if ([fullTemperature[1] doubleValue] > 50)
+    
+    if ([fullTemperature count] > 1)
+    //Darksky drops the decimal if the temperature is a whole number (e.g. 77 instead of 77.00)
     {
-        firstNumber += 1;
+        double firstNumber = [fullTemperature[0] doubleValue];
+        if ([fullTemperature[1] doubleValue] > 50)
+        {
+            firstNumber += 1;
+        }
+        
+        return [NSNumber numberWithDouble:firstNumber];
     }
     
-    return [NSNumber numberWithDouble:firstNumber];
+    return temperature;
 }
 
 @end

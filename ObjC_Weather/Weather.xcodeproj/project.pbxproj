@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		631A7C121C55A6F600BD05DD /* sun4.png in Resources */ = {isa = PBXBuildFile; fileRef = 631A7C111C55A6F600BD05DD /* sun4.png */; };
 		633379941C51ADA9001C5C9D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 633379931C51ADA9001C5C9D /* main.m */; };
 		633379971C51ADA9001C5C9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 633379961C51ADA9001C5C9D /* AppDelegate.m */; };
 		633379A31C51ADA9001C5C9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 633379A11C51ADA9001C5C9D /* Main.storyboard */; };
@@ -28,13 +27,15 @@
 		6362822C1C520D16009C12B1 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 6362822B1C520D16009C12B1 /* Location.m */; };
 		636282311C5214F5009C12B1 /* Weather.m in Sources */ = {isa = PBXBuildFile; fileRef = 636282301C5214F5009C12B1 /* Weather.m */; };
 		636282341C521C38009C12B1 /* ForecastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 636282331C521C38009C12B1 /* ForecastCell.m */; };
+		637B82301C6C00C000A3CA31 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 637B822F1C6C00C000A3CA31 /* SettingsViewController.m */; };
+		63AAF7E01C7696AA0025077C /* LocationSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AAF7DF1C7696AA0025077C /* LocationSearchTableViewController.m */; };
+		63AF438B1C64532A00AEB247 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AF438A1C64532A00AEB247 /* Settings.m */; };
 		63E8945B1C55C1BD00859C55 /* AnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E8945A1C55C1BD00859C55 /* AnimationManager.m */; };
 		63E8945E1C55EEE200859C55 /* ViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E8945D1C55EEE200859C55 /* ViewManager.m */; };
 		63E894611C56010E00859C55 /* TimeOfDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E894601C56010E00859C55 /* TimeOfDay.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		631A7C111C55A6F600BD05DD /* sun4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sun4.png; sourceTree = "<group>"; };
 		6333798F1C51ADA9001C5C9D /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		633379931C51ADA9001C5C9D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		633379951C51ADA9001C5C9D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -81,6 +82,12 @@
 		636282301C5214F5009C12B1 /* Weather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Weather.m; sourceTree = "<group>"; };
 		636282321C521C38009C12B1 /* ForecastCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForecastCell.h; sourceTree = "<group>"; };
 		636282331C521C38009C12B1 /* ForecastCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForecastCell.m; sourceTree = "<group>"; };
+		637B822E1C6C00C000A3CA31 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		637B822F1C6C00C000A3CA31 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		63AAF7DE1C7696AA0025077C /* LocationSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchTableViewController.h; sourceTree = "<group>"; };
+		63AAF7DF1C7696AA0025077C /* LocationSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSearchTableViewController.m; sourceTree = "<group>"; };
+		63AF43891C64532A00AEB247 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		63AF438A1C64532A00AEB247 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		63E894591C55C1BD00859C55 /* AnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationManager.h; sourceTree = "<group>"; };
 		63E8945A1C55C1BD00859C55 /* AnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationManager.m; sourceTree = "<group>"; };
 		63E8945C1C55EEE200859C55 /* ViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewManager.h; sourceTree = "<group>"; };
@@ -215,7 +222,8 @@
 				6362822B1C520D16009C12B1 /* Location.m */,
 				6362822F1C5214F5009C12B1 /* Weather.h */,
 				636282301C5214F5009C12B1 /* Weather.m */,
-				631A7C111C55A6F600BD05DD /* sun4.png */,
+				63AF43891C64532A00AEB247 /* Settings.h */,
+				63AF438A1C64532A00AEB247 /* Settings.m */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -226,6 +234,10 @@
 				633379C61C51B01B001C5C9D /* MainViewController.h */,
 				633379C71C51B01B001C5C9D /* MainViewController.m */,
 				6362289A1C57448700C23FF8 /* WeatherTableVC */,
+				637B822E1C6C00C000A3CA31 /* SettingsViewController.h */,
+				637B822F1C6C00C000A3CA31 /* SettingsViewController.m */,
+				63AAF7DE1C7696AA0025077C /* LocationSearchTableViewController.h */,
+				63AAF7DF1C7696AA0025077C /* LocationSearchTableViewController.m */,
 			);
 			name = "view controllers";
 			sourceTree = "<group>";
@@ -298,7 +310,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				633379A81C51ADA9001C5C9D /* LaunchScreen.storyboard in Resources */,
-				631A7C121C55A6F600BD05DD /* sun4.png in Resources */,
 				633379A51C51ADA9001C5C9D /* Assets.xcassets in Resources */,
 				6362289C1C57449A00C23FF8 /* Default-568h@2x.png in Resources */,
 				633379A31C51ADA9001C5C9D /* Main.storyboard in Resources */,
@@ -316,9 +327,12 @@
 				633379971C51ADA9001C5C9D /* AppDelegate.m in Sources */,
 				635054931C57F341006263B0 /* YLMoment+Components.m in Sources */,
 				63E8945B1C55C1BD00859C55 /* AnimationManager.m in Sources */,
+				63AF438B1C64532A00AEB247 /* Settings.m in Sources */,
 				635054971C57F341006263B0 /* YLMoment+RelativeTime.m in Sources */,
 				635054961C57F341006263B0 /* YLMoment+Manipulation.m in Sources */,
+				63AAF7E01C7696AA0025077C /* LocationSearchTableViewController.m in Sources */,
 				635054921C57F341006263B0 /* YLMoment+Bundle.m in Sources */,
+				637B82301C6C00C000A3CA31 /* SettingsViewController.m in Sources */,
 				633379CE1C51CB1D001C5C9D /* APIController.m in Sources */,
 				635054951C57F341006263B0 /* YLMoment+Helpers.m in Sources */,
 				635054941C57F341006263B0 /* YLMoment+Description.m in Sources */,

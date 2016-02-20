@@ -10,6 +10,7 @@
 
 @implementation TimeOfDay
 
+///Determines if it's day or night using some VERY "PRECISE AND ACCURATE MEASUREMENTS"
 + (DayOrNightIdentifier)DayOrNight
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -26,6 +27,7 @@
     }
 }
 
+///Returns an array of weekday strings starting from today
 + (NSArray *)getUpcomingDaysOfWeekFromToday
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -45,6 +47,19 @@
     return weekdays;
 }
 
+///Returns the weekday string value for today's date
++ (NSString *)getTodayString
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    NSInteger weekday = [[calendar components:NSCalendarUnitWeekday fromDate:[[NSDate alloc] init]] weekday];
+    
+    return [self assignDay:weekday];
+}
+
+///Returns a weekday when provided with a integer day of the week (1 == Sunday, 2 == Monday, etc)
 + (NSString *)assignDay:(NSInteger)day
 {
     if (day > 7)
@@ -53,6 +68,8 @@
     }
     
     NSString *dayStr = [[NSString alloc] init];
+    
+    //honestly not sure why this didn't work with a switch/case
     
     if (day == 1) {
         dayStr = @"Sunday";
@@ -71,6 +88,25 @@
     }
     
     return dayStr;
+}
+
++ (NSNumber *)getClosestNumber:(NSNumber *)number fromArray:(NSArray *)array
+{
+    int minDifference = 10;
+    NSNumber *closestNum = [[NSNumber alloc] init];
+    
+    for (NSNumber *testNum in array)
+    {
+        int difference = [testNum intValue] - [number intValue];
+        
+        if (abs(difference) < minDifference)
+        {
+            minDifference = difference;
+            closestNum = testNum;
+        }
+    }
+    
+    return closestNum;
 }
 
 @end

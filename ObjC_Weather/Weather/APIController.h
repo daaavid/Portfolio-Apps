@@ -14,20 +14,24 @@ typedef enum {
     City
 }LocationSearchIdentifier;
 
-@protocol APIControllerProtocol
-
+@protocol DarkSkyAPIProtocol
 - (void)darkSkySearchDidComplete:(NSDictionary *)results location:(Location *)location;
-- (void)googleLocationSearchDidComplete:(NSArray *)results;
-- (void)googlePlacesSearchDidComplete:(NSArray *)results;
+@end
 
+@protocol GooglePlacesAPIProtocol <NSObject>
+- (void)googlePlacesSearchDidComplete:(NSArray *)results;
 @end
 
 @interface APIController : NSObject <NSURLSessionDelegate>
 
-@property (nonatomic) id <APIControllerProtocol> delegate;
-- (instancetype)initWithDelegate:(id <APIControllerProtocol>)delegate;
+@property (nonatomic) id <DarkSkyAPIProtocol> darkSkyDelegate;
+@property (nonatomic) id <GooglePlacesAPIProtocol> googlePlacesDelegate;
 
-- (void)searchForLocation:(NSString *)searchTerm searchMethod:(NSString *)searchMethod;
+- (instancetype)initWithDarkSkyDelegate:(id <DarkSkyAPIProtocol>)delegate;
+- (instancetype)initWithGooglePlacesDelegate:(id <GooglePlacesAPIProtocol>)delegate;
+
+
+- (void)searchGooglePlacesFor:(NSString *)searchTerm;
 - (void)searchForWeather:(Location *)location;
 
 @end

@@ -14,6 +14,6 @@
 
 @interface WeatherTableTableViewController : UITableViewController
 
-@property (nonatomic) NSArray *weeklyForecast;
+@property (nonatomic) Weather *weather;
 
 @end

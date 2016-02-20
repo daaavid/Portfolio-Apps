@@ -12,42 +12,90 @@
 @implementation APIController
 {
     NSMutableData *receivedData;
+    Location *locationBuffer;
 }
 
-- (instancetype)initWithDelegate:(id <APIControllerProtocol>)delegate;
+- (instancetype)initWithDarkSkyDelegate:(id <DarkSkyAPIProtocol>)delegate;
 {
     if (self = [super init])
     {
-        _delegate = delegate;
+        _darkSkyDelegate = delegate;
     }
     return self;
 }
 
-- (void)searchForLocation:(NSString *)searchTerm searchMethod:(NSString *)searchMethod;
+- (instancetype)initWithGooglePlacesDelegate:(id <GooglePlacesAPIProtocol>)delegate;
 {
+    if (self = [super init])
+    {
+        _googlePlacesDelegate = delegate;
+    }
+    return self;
+}
+
+- (void)searchGooglePlacesFor:(NSString *)searchTerm
+{
+    searchTerm = [searchTerm stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    
+    NSString *baseURLString = @"https://maps.googleapis.com/maps/api/place/autocomplete/";
+    NSString *apiKey = @"AIzaSyDTPgYOHM31jzVcZFV-wdg2RmdleSkAF-4";
+    NSString *types = @"(cities)";
+    
+    NSString *fullURLString = [NSString stringWithFormat:@"%@json?input=%@&types=%@&key=%@",
+                               baseURLString,
+                               searchTerm,
+                               types,
+                               apiKey];
+    
+    [self beginTaskWithURLString:fullURLString andTaskDescription:@"GooglePlaces"];
     
 }
 
+//- (void)searchGooglePlacesFor:(NSString *)searchTerm
+//{
+//    searchTerm = [searchTerm stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+//    
+//    NSString *baseURLString = @"https://maps.googleapis.com/maps/api/place/autocomplete";
+//    NSString *apiKey = @"AIzaSyDTPgYOHM31jzVcZFV-wdg2RmdleSkAF-4";
+//    NSString *argURLString = [NSString stringWithFormat:@"/json?input=%@&types=(cities)&key=%@", searchTerm, apiKey];
+//    
+//    NSString *fullURLString = [NSString stringWithFormat:@"%@%@", baseURLString, argURLString];
+//    
+//    [self beginTaskWithURLString:fullURLString andTaskDescription:@"GooglePlaces"];
+//}
+
 - (void)searchForWeather:(Location *)location
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
+    NSString *apiKey = @"20e7ef512551da7f8d7ab6d2c9b4128c/";
     NSString *urlString = [NSString stringWithFormat:
-        @"https://api.forecast.io/forecast/20e7ef512551da7f8d7ab6d2c9b4128c/%@,%@", location.lat, location.lng];
+                           @"https://api.forecast.io/forecast/%@%@,%@", apiKey, location.lat, location.lng];
     
-    NSLog(@"%@", urlString);
-    
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession
-                             sessionWithConfiguration:configuration
-                             delegate:self
-                             delegateQueue:[NSOperationQueue mainQueue]];
-    
+    [self beginTaskWithURLString:urlString andTaskDescription:@"DarkSky"];
+}
 
-    NSURLSessionDataTask *task = [session dataTaskWithURL:url];
-    [task setTaskDescription:@"DarkSky"];
-    [task resume];
+-(void)beginTaskWithURLString:(NSString *)urlString andTaskDescription:(NSString *)description
+{
+    NSURL *url = [NSURL URLWithString:urlString];
+    if (url)
+    {
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        
+        NSURLSession *session = [NSURLSession
+                                 sessionWithConfiguration:configuration
+                                 delegate:self
+                                 delegateQueue:[NSOperationQueue mainQueue]];
+        
+        NSURLSessionDataTask *task = [session dataTaskWithURL:url];
+        
+        [task setTaskDescription:description];
+        [task resume];
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    }
+    else
+    {
+        NSLog(@"invalid url %@",  urlString);
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
@@ -76,50 +124,27 @@
     }
     else
     {
-        [self.delegate darkSkySearchDidComplete:nil location:nil];
+        //
     }
 }
 
 - (void)searchDidComplete:(BOOL)success taskIdentifier:(NSString *)identifier
 {
-    if ([identifier isEqualToString:@"DarkSky"])
+    NSDictionary *results = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:nil];
+    
+    if (results && success)
     {
-        if (success)
+        if ([identifier isEqualToString:@"DarkSky"])
         {
-            NSDictionary *results = [NSJSONSerialization JSONObjectWithData:receivedData options:0 error:nil];
-            if (results)
+            [self.darkSkyDelegate darkSkySearchDidComplete:results location:locationBuffer];
+        }
+        else if ([identifier isEqualToString:@"GooglePlaces"])
+        {
+            NSArray *predictions = (NSArray *)results[@"predictions"];
+            if ([predictions firstObject])
             {
-                [self.delegate darkSkySearchDidComplete:results location:nil];
+                [self.googlePlacesDelegate googlePlacesSearchDidComplete:predictions];
             }
-            else
-            {
-                [self.delegate darkSkySearchDidComplete:nil location:nil];
-            }
-        }
-        else
-        {
-            
-        }
-    }
-    else if ([identifier isEqualToString:@"Location"])
-    {
-        if (success)
-        {
-            
-        }
-        else
-        {
-            
-        }
-    }
-    else if ([identifier isEqualToString:@"Places"])
-    {
-        if (success)
-        {
-            
-        }
-        else
-        {
             
         }
     }

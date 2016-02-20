@@ -35,25 +35,29 @@
     if ([results firstObject])
     {
         NSDictionary *result = (NSDictionary *)[results firstObject];
-        
-        NSString *formattedAddress = (NSString *)[result objectForKey:@"formatted_address"];
-        if (formattedAddress)
+        //really missing conditional binding right now
+        //come back to me, if let
+        if (result)
         {
-            NSArray *addressComponentsForCity =
-                [formattedAddress componentsSeparatedByString:@" "];
-            
-            city = addressComponentsForCity[0];
-            state = [addressComponentsForCity[1] componentsSeparatedByString:@" "][1];
-        }
-        
-        NSDictionary *geometry = (NSDictionary *)[result objectForKey:@"geometry"];
-        if (geometry)
-        {
-            NSDictionary *latLng = (NSDictionary *)[geometry objectForKey:@"location"];
-            if (latLng)
+            NSString *formattedAddress = (NSString *)[result objectForKey:@"formatted_address"];
+            if (formattedAddress)
             {
-                lat = [(NSNumber *)[latLng objectForKey:@"lat"] stringValue];
-                lng = [(NSNumber *)[latLng objectForKey:@"lng"] stringValue];
+                NSArray *addressComponentsForCity =
+                [formattedAddress componentsSeparatedByString:@" "];
+                
+                city = addressComponentsForCity[0];
+                state = [addressComponentsForCity[1] componentsSeparatedByString:@" "][1];
+            }
+            
+            NSDictionary *geometry = (NSDictionary *)[result objectForKey:@"geometry"];
+            if (geometry)
+            {
+                NSDictionary *latLng = (NSDictionary *)[geometry objectForKey:@"location"];
+                if (latLng)
+                {
+                    lat = [(NSNumber *)[latLng objectForKey:@"lat"] stringValue];
+                    lng = [(NSNumber *)[latLng objectForKey:@"lng"] stringValue];
+                }
             }
         }
     }

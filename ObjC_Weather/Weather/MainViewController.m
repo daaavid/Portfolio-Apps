@@ -22,12 +22,15 @@
 @import QuartzCore;
 
 @interface MainViewController ()
-<UIPopoverPresentationControllerDelegate, AnimationDidCompleteProtocol, APIControllerProtocol>
+<UIPopoverPresentationControllerDelegate, AnimationDidCompleteProtocol, DarkSkyAPIProtocol>
 {
     AnimationManager *animator;
     NSArray *overlayViews;
+    NSArray *mainInfoViewLabels;
     
-    Weather *weatherToday;
+    Weather *weather;
+    
+    
 }
 
 #pragma mark - views
@@ -49,8 +52,11 @@
 //main info view
 @property (weak, nonatomic) IBOutlet UIView *mainInfoView;
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
+@property (weak, nonatomic) IBOutlet UILabel *degreeSymbolLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *quickWeatherLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *weatherImgView;
 
 #pragma mark - other properties
 
@@ -64,12 +70,17 @@
 {
     [super viewDidLoad];
     
+    NSLog(@"viewDidLoad");
+    
+    
+    
     [self performInitialSetup];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     [self performViewSetup];
 }
 
@@ -108,11 +119,6 @@
 - (void)performInitialSetup
 {
     animator = [[AnimationManager alloc] initWithDelegate:self];
-    Location *location = [[Location alloc] init];
-    location.lat = @"28.5409840";
-    location.lng = @"-81.3777390";
-    
-    [self.apiController searchForWeather:location];
     
     [self.temperatureLabel setText:@""];
     [self.locationLabel setText:@""];
@@ -132,10 +138,22 @@
     {
         [overlayView setAlpha:0];
     }
+    
+    [ViewManager setLabelShadow:self.temperatureLabel];
+    [ViewManager setLabelShadow:self.degreeSymbolLabel];
+    [ViewManager setLabelShadow:self.quickWeatherLabel];
+    [ViewManager setLabelShadow:self.locationLabel];
+    
+    [ViewManager setViewShadow:self.weatherImgView];
+    
+    [self.containerView setAlpha:0];
+    [self.containerBGView setAlpha:0];
 }
 
 - (void)performViewSetup
 {
+    NSLog(@"performViewSetup");
+    
     [self.containerView setAlpha:0];
     [self.view setBackgroundColor:[UIColor clearColor]];
     
@@ -144,62 +162,42 @@
         [overlayView setAlpha:0];
     }
     
-    BOOL isDay = [TimeOfDay DayOrNight] == Night;
-    
-    NSArray *colors;
-    
-    if (isDay)
+    if ([TimeOfDay DayOrNight] == Day)
     {
-        //a day sky
-//        colors = @[
-//           (id)[[UIColor colorWithRed:0 green:0.02 blue:0.15 alpha:1] CGColor],
-//           (id)[[UIColor colorWithRed:0.01 green:0.49 blue:0.7 alpha:1] CGColor],
-//           (id)[[UIColor colorWithRed:0 green:0.64 blue:0.6 alpha:1] CGColor]
-//           ];
-        
-        colors = @[
-           (id)[[UIColor colorWithRed:0.22 green:0.67 blue:0.69 alpha:1] CGColor],
-           (id)[[UIColor colorWithRed:0.17 green:0.45 blue:0.64 alpha:1] CGColor],
-           (id)[[UIColor colorWithRed:0.15 green:0.3 blue:0.6 alpha:1] CGColor]
-           ];
-        
-        //with clouds
+        //clouds
         [self.cloudOverlayViewRight setAlpha:1];
         [self.cloudOverlayViewLeft setAlpha:1];
     }
-    else if (!isDay)
+    else
     {
-        //a night sky
-//        colors = @[
-//          (id)[[UIColor colorWithRed:0 green:0.04 blue:0.08 alpha:1] CGColor],
-//          (id)[[UIColor colorWithRed:0 green:0.1 blue:0.2 alpha:1] CGColor],
-//          (id)[[UIColor colorWithRed:0 green:0.17 blue:0.33 alpha:1] CGColor]
-//          ];
-        
-        colors = @[
-           (id)[[UIColor colorWithRed:0.45 green:0.13 blue:0.54 alpha:1] CGColor],
-           (id)[[UIColor colorWithRed:0.2 green:0.13 blue:0.51 alpha:1] CGColor],
-           (id)[[UIColor colorWithRed:0.17 green:0.12 blue:0.51 alpha:1] CGColor]
-           ];
-        
-        //with stars
+        // stars
         [self.starOverlayViewRight setAlpha:1];
         [self.starOverlayViewLeft setAlpha:1];
         
         [ViewManager flipViews:@[self.starOverlayViewRight, self.starOverlayViewLeft] random:YES];
     }
-    [ViewManager setViewGradient:self.view colors:colors];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        UIView *left = self.overlayViewLeft;
-        UIView *right = self.overlayViewRight;
-        [animator fadeView:left identifier:FadeIn];
-        [animator fadeView:right identifier:FadeIn];
-        [animator slideToOrigin:left fromPoint:left.frame.origin.x - 60 identifier:SlideHorizontally];
-        [animator slideToOrigin:right fromPoint:right.frame.origin.x + 60 identifier:SlideHorizontally];
-    });
+    [ViewManager setBackgroundGradientToView:self.view];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//
+//    });
+    
+    UIView *left = self.overlayViewLeft;
+    UIView *right = self.overlayViewRight;
+    [animator fadeView:left identifier:FadeIn];
+    [animator fadeView:right identifier:FadeIn];
+    [animator slideToOrigin:left fromPoint:left.frame.origin.x - 60 identifier:SlideHorizontally];
+    [animator slideToOrigin:right fromPoint:right.frame.origin.x + 60 identifier:SlideHorizontally];
     
     [self setInitialBGViewProperties];
+    
+    
+    
+    Location *location = [[Location alloc] init];
+    location.lat = @"28.5409840";
+    location.lng = @"-81.3777390";
+    [self.apiController searchForWeather:location];
 }
 
 - (void)setInitialBGViewProperties
@@ -212,12 +210,17 @@
 
 - (void)setMainInfoViewWeatherLabels
 {
-    if (weatherToday)
+    if (weather)
     {
         [animator slideToOrigin:self.mainInfoView fromPoint:self.mainInfoView.frame.origin.y + 30 identifier:SlideVertically];
-        [self.temperatureLabel setText:[NSString stringWithFormat:@"%@", weatherToday.temperature]];
+        [self.temperatureLabel setText:[NSString stringWithFormat:@"%@", weather.temperature]];
         [self.locationLabel setText: [NSString stringWithFormat:@"Orlando, FL"]];
-        [self.quickWeatherLabel setText:[NSString stringWithFormat:@"%@", weatherToday.summary]];
+        [self.quickWeatherLabel setText:[NSString stringWithFormat:@"%@", weather.summary]];
+        
+        NSString *imageName = [NSString stringWithFormat:@"%@-big", weather.icon];
+        
+        [self.weatherImgView setImage:[UIImage imageNamed:imageName]];
+        [self.weatherImgView setTintColor:[UIColor whiteColor]];
     }
 }
 
@@ -226,9 +229,11 @@
     WeatherTableTableViewController *weatherTableVC =
         (WeatherTableTableViewController *)self.childViewControllers[0];
     
-    if (weatherToday && weatherTableVC)
+    if (weather && weatherTableVC)
     {
-        
+        weatherTableVC.weather = weather;
+        [weatherTableVC.tableView flashScrollIndicators];
+        [weatherTableVC.tableView reloadData];
     }
 }
 
@@ -238,7 +243,7 @@
 {
     if (!_apiController)
     {
-        _apiController = [[APIController alloc] initWithDelegate:self];
+        _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
     }
     return _apiController;
 }
@@ -270,10 +275,9 @@
 
 - (void)darkSkySearchDidComplete:(NSDictionary *)results location:(Location *)location
 {
-    weatherToday = [[Weather alloc] initWithResults:results];
+    weather = [[Weather alloc] initWithResults:results];
     [self setMainInfoViewWeatherLabels];
-    
-    [self apiController];
+    [self setWeeklyForecastTableView];
 }
 
 - (void)googleLocationSearchDidComplete:(NSArray *)results

@@ -7,6 +7,7 @@
 //
 
 #import "ViewManager.h"
+#import "TimeOfDay.h"
 
 @implementation ViewManager
 
@@ -32,6 +33,14 @@
     view.layer.shadowColor = [[UIColor darkGrayColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(0, 2);
     view.layer.shadowOpacity = 0.5;
+}
+
++ (void)setLabelShadow:(UILabel *)label
+{
+    label.layer.masksToBounds = NO;
+    label.layer.shadowColor = [[UIColor darkGrayColor] CGColor];
+    label.layer.shadowOffset = CGSizeMake(0, 2);
+    label.layer.shadowOpacity = 0.5;
 }
 
 + (void)addActivitySpinner:(UIView *)view toFrame:(CGRect)frame
@@ -62,6 +71,45 @@
             [view setTransform:CGAffineTransformMakeScale(-1, 1)];
         }
     }
+}
+
++ (void)setBackgroundGradientToView:(UIView *)view
+{
+    NSArray *colors;
+    
+    if ([TimeOfDay DayOrNight] == Day)
+    {
+        //a day sky
+        //        colors = @[
+        //           (id)[[UIColor colorWithRed:0 green:0.02 blue:0.15 alpha:1] CGColor],
+        //           (id)[[UIColor colorWithRed:0.01 green:0.49 blue:0.7 alpha:1] CGColor],
+        //           (id)[[UIColor colorWithRed:0 green:0.64 blue:0.6 alpha:1] CGColor]
+        //           ];
+        
+        colors = @[
+                   (id)[[UIColor colorWithRed:0.22 green:0.67 blue:0.69 alpha:1] CGColor],
+                   (id)[[UIColor colorWithRed:0.17 green:0.45 blue:0.64 alpha:1] CGColor],
+                   (id)[[UIColor colorWithRed:0.15 green:0.3 blue:0.6 alpha:1] CGColor]
+                   ];
+    }
+    else
+    {
+        //a night sky
+        //        colors = @[
+        //          (id)[[UIColor colorWithRed:0 green:0.04 blue:0.08 alpha:1] CGColor],
+        //          (id)[[UIColor colorWithRed:0 green:0.1 blue:0.2 alpha:1] CGColor],
+        //          (id)[[UIColor colorWithRed:0 green:0.17 blue:0.33 alpha:1] CGColor]
+        //          ];
+        
+        colors = @[
+                   (id)[[UIColor colorWithRed:0.45 green:0.13 blue:0.54 alpha:1] CGColor],
+                   (id)[[UIColor colorWithRed:0.2 green:0.13 blue:0.51 alpha:1] CGColor],
+                   (id)[[UIColor colorWithRed:0.17 green:0.12 blue:0.51 alpha:1] CGColor]
+                   ];
+        
+    }
+    
+    [self setViewGradient:view colors:colors];
 }
 
 @end
