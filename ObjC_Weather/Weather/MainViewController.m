@@ -91,6 +91,7 @@ LocationWasChosenProtocol
     {
         originalWeatherFrame = self.mainInfoView.frame;
         [self performInitialSetup];
+        transformed = YES;
     }
     
     if (!self.savedDataManager)
@@ -98,7 +99,6 @@ LocationWasChosenProtocol
         _savedDataManager = [[SavedDataManager alloc] init];
     }
     
-    transformed = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -267,12 +267,12 @@ LocationWasChosenProtocol
 
 - (IBAction)buttonTouchUpOutside:(UIButton *)sender
 {
-    [animator animateTransform:sender widthScale:1 heightScale:1 duration:0.25];
+    [animator animateTransform:sender widthScale:1 heightScale:1 duration:0.15];
 }
 
 - (IBAction)buttonTouchUpInside:(UIButton *)sender
 {
-    [animator animateTransform:sender widthScale:1 heightScale:1 duration:0.25];
+    [animator animateTransform:sender widthScale:1 heightScale:1 duration:0.15];
     
     if ([sender isEqual:self.favoriteButton])
     {

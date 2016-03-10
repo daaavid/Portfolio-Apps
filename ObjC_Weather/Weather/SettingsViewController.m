@@ -191,6 +191,23 @@ GoogleMapsAPIProtocol
     }
 }
 
+#pragma mark - Buttons
+
+- (IBAction)buttonTouchDown:(UIButton *)sender
+{
+    [animator animateTransform:sender widthScale:0.9 heightScale:0.9 duration:0.25];
+}
+
+- (IBAction)buttonTouchUpOutside:(UIButton *)sender
+{
+    [animator animateTransform:sender widthScale:1 heightScale:1 duration:0.15];
+}
+
+- (IBAction)buttonTouchUpInside:(UIButton *)sender
+{
+    [animator animateTransform:sender widthScale:1 heightScale:1 duration:0.15];
+}
+
 - (void)setSearchBarTextColor:(UIColor *)color
 {
     UITextField *searchField = (UITextField *)[self.searchBar valueForKey:@"_searchField"];

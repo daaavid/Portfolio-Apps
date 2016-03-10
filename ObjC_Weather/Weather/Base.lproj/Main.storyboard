@@ -808,6 +808,9 @@
                                 <state key="normal" image="back"/>
                                 <connections>
                                     <action selector="backButtonWasTapped:" destination="Q5U-IY-IaE" eventType="touchUpInside" id="XOb-w4-Axj"/>
+                                    <action selector="buttonTouchDown:" destination="Q5U-IY-IaE" eventType="touchDown" id="f2Q-Lv-dYg"/>
+                                    <action selector="buttonTouchUpInside:" destination="Q5U-IY-IaE" eventType="touchDragInside" id="fz1-s0-RvR"/>
+                                    <action selector="buttonTouchUpOutside:" destination="Q5U-IY-IaE" eventType="touchUpOutside" id="qr4-0Y-ZjO"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jLb-9I-TRy">
