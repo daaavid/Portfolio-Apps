@@ -12,7 +12,10 @@
 #import "TimeOfDay.h"
 #import "APIController.h"
 #import "WeatherTableTableViewController.h"
+#import "SavedDataManager.h"
 
 @interface MainViewController : UIViewController
+
+@property (nonatomic, strong) SavedDataManager *savedDataManager;
 
 @end

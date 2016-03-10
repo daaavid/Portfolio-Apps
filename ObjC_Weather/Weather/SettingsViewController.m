@@ -25,6 +25,7 @@ GoogleMapsAPIProtocol
     AnimationManager *animator;
 }
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, weak) IBOutlet UIView *containerContainerView;
 
@@ -50,8 +51,7 @@ GoogleMapsAPIProtocol
     
     animator = [[AnimationManager alloc] initWithDelegate:self];
     
-    UITextField *searchField = (UITextField *)[self.searchBar valueForKey:@"_searchField"];
-    [searchField setTextColor:[UIColor whiteColor]];
+    [self setSearchBarTextColor:[UIColor whiteColor]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -71,19 +71,23 @@ GoogleMapsAPIProtocol
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
-    if (searchBar.text)
-    {
-        apiController = [[APIController alloc] initWithGooglePlacesDelegate:self];
-        [apiController searchGooglePlacesFor:searchBar.text];
-        NSLog(@"%@", searchBar.text);
-    }
+    [self startSearch];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
 
+}
+
+- (void)startSearch
+{
+    if (![self.searchBar.text isEqualToString:@""])
+    {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        apiController = [[APIController alloc] initWithGooglePlacesDelegate:self];
+        [apiController searchGooglePlacesFor:self.searchBar.text];
+        NSLog(@"%@", self.searchBar.text);
+    }
 }
 
 - (void)googlePlacesSearchDidComplete:(NSArray *)results
@@ -132,12 +136,19 @@ GoogleMapsAPIProtocol
     //
 }
 
-- (void)locationStringWasChosen:(NSString *)location
+- (void)locationWasChosenFromResults:(id)location
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
-    apiController = [[APIController alloc] initWithGoogleMapsDelegate:self];
-    [apiController searchGoogleMapsFor:location];
+    if ([location isKindOfClass:[NSString class]])
+    {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        
+        apiController = [[APIController alloc] initWithGoogleMapsDelegate:self];
+        [apiController searchGoogleMapsFor:location];
+    }
+    else if ([location isKindOfClass:[Location class]])
+    {
+        [self.delegate locationWasChosen:location];
+    }
 }
 
 - (void)googleMapsSearchDidComplete:(Location *)location
@@ -154,6 +165,36 @@ GoogleMapsAPIProtocol
         return true;
     }
     return false;
+}
+
+#pragma mark - Segmented Control
+
+- (IBAction)segmentedContolValueChanged:(UISegmentedControl *)sender
+{
+    [locationSearchTableViewController listModeChanged:sender.selectedSegmentIndex currentLocation:self.currentLocation];
+    
+    if (sender.selectedSegmentIndex == 0)
+    {
+        [self.searchBar resignFirstResponder];
+        self.searchBar.userInteractionEnabled = NO;
+        [self setSearchBarTextColor:[UIColor lightGrayColor]];
+        
+        [self setContainerViewHeight:locationSearchTableViewController.searchResults];
+    }
+    else
+    {
+        self.searchBar.userInteractionEnabled = YES;
+        [self.searchBar becomeFirstResponder];
+        [self setSearchBarTextColor:[UIColor whiteColor]];
+        
+        [self startSearch];
+    }
+}
+
+- (void)setSearchBarTextColor:(UIColor *)color
+{
+    UITextField *searchField = (UITextField *)[self.searchBar valueForKey:@"_searchField"];
+    [searchField setTextColor:color];
 }
 
 /*

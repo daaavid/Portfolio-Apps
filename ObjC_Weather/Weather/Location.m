@@ -25,7 +25,19 @@
     return self;
 }
 
-+ (Location *)locationFromJSON:(NSArray *)results;
+- (Location *)initSampleLocation
+{
+    Location *location = [[Location alloc] init];
+    location.favorite = NO;
+    location.lat = @"28.5409840";
+    location.lng = @"-81.3777390";
+    location.city = @"Orlando";
+    location.state = @" FL";
+    
+    return location;
+}
+
++ (Location *)locationFromJSON:(NSArray *)results
 {
     NSString *lat   = [[NSString alloc] init];
     NSString *lng   = [[NSString alloc] init];
@@ -43,7 +55,7 @@
             if (formattedAddress)
             {
                 NSArray *addressComponents =
-                [formattedAddress componentsSeparatedByString:@" "];
+                [formattedAddress componentsSeparatedByString:@","];
                 
                 city = addressComponents[0];
 //                state = [addressComponentsForCity[1] componentsSeparatedByString:@" "][1];
@@ -64,6 +76,26 @@
     }
     
     return [[Location alloc] init:lat lng:lng city:city state:state];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super init])
+    {
+        _lat = [aDecoder decodeObjectForKey:@"lat"];
+        _lng = [aDecoder decodeObjectForKey:@"lng"];
+        _city = [aDecoder decodeObjectForKey:@"city"];
+        _state = [aDecoder decodeObjectForKey:@"state"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_lat forKey:@"lat"];
+    [aCoder encodeObject:_lng forKey:@"lng"];
+    [aCoder encodeObject:_city forKey:@"city"];
+    [aCoder encodeObject:_state forKey:@"state"];
 }
 
 @end

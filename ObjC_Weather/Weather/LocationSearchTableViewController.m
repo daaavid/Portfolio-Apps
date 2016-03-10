@@ -10,6 +10,11 @@
 #import "ViewManager.h"
 
 @interface LocationSearchTableViewController ()
+{
+    ListMode listMode;
+}
+
+@property (nonatomic) Location *currentLocation;
 
 @end
 
@@ -20,6 +25,7 @@
     [super viewDidLoad];
     
     self.searchResults = [[NSMutableArray alloc] init];
+    listMode = Search;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,11 +52,27 @@
     
     if ([self.searchResults count] > 0)
     {
-        NSString *result = self.searchResults[indexPath.row];
-        NSLog(@"%@", result);
+        cell.detailTextLabel.text = @"";
+        
+        if (listMode == Search)
+        {
+            NSString *result = self.searchResults[indexPath.row];
+            cell.textLabel.text = result;
+        }
+        else if (listMode == Saved)
+        {
+            Location *location = self.searchResults[indexPath.row];
+            NSString *locationStr = [NSString stringWithFormat:@"%@,%@", location.city, location.state];
+            
+            cell.textLabel.text = locationStr;
+            
+            if ([location isEqual:self.currentLocation])
+            {
+                cell.detailTextLabel.text = @"Current";
+            }
+        }
         
         cell.textLabel.textColor = [ViewManager setColorBasedOnTimeOfDay];
-        cell.textLabel.text = result;
     }
     
     return cell;
@@ -60,9 +82,18 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSString *selectedResult = self.searchResults[indexPath.row];
-    
-    [self.delegate locationStringWasChosen:selectedResult];
+    if (listMode == Search)
+    {
+        NSString *selectedResult = self.searchResults[indexPath.row];
+        
+        [self.delegate locationWasChosenFromResults:selectedResult];
+    }
+    else if (listMode == Saved)
+    {
+        Location *selectedLocation = self.searchResults[indexPath.row];
+        
+        [self.delegate locationWasChosenFromResults:selectedLocation];
+    }
 }
 
 - (void)showResults:(NSArray *)results
@@ -78,6 +109,24 @@
     [self.tableView reloadData];
 }
 
+- (void)listModeChanged:(NSInteger)selectedSegmentIndex currentLocation:(Location *)currentLocation
+{
+    [self.searchResults removeAllObjects];
+    
+    if (selectedSegmentIndex == 0)
+    {
+        listMode = Saved;
+        
+        self.currentLocation = currentLocation;
+        [self.searchResults addObject:currentLocation];
+    }
+    else
+    {
+        listMode = Search;
+    }
+    
+    [self.tableView reloadData];
+}
 
 /*
 // Override to support conditional editing of the table view.

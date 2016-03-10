@@ -23,13 +23,18 @@
 @import QuartzCore;
 
 @interface MainViewController ()
-<UIPopoverPresentationControllerDelegate, AnimationDidCompleteProtocol, DarkSkyAPIProtocol, LocationWasChosenProtocol>
+<
+UIPopoverPresentationControllerDelegate,
+AnimationDidCompleteProtocol,
+DarkSkyAPIProtocol,
+LocationWasChosenProtocol
+>
 {
     AnimationManager *animator;
     NSArray *overlayViews;
     NSArray *mainInfoViewLabels;
     
-    Weather *weather;
+//    Weather *weather;
     
     CGRect originalWeatherFrame;
     BOOL transformed;
@@ -60,9 +65,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *quickWeatherLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *weatherImgView;
 
-#pragma mark - other properties
+//button(s)
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 
+//other
 @property (nonatomic, strong) APIController *apiController;
+@property (nonatomic, strong) Location *location;
 
 @end
 
@@ -74,12 +82,20 @@
     
     NSLog(@"viewDidLoad");
     
-
+    if (!self.location)
+    {
+        _location = [[Location alloc] initSampleLocation];
+    }
     
     if (!transformed)
     {
         originalWeatherFrame = self.mainInfoView.frame;
         [self performInitialSetup];
+    }
+    
+    if (!self.savedDataManager)
+    {
+        _savedDataManager = [[SavedDataManager alloc] init];
     }
     
     transformed = YES;
@@ -102,17 +118,7 @@
     {
         SettingsViewController *settingsViewController = (SettingsViewController *)[segue destinationViewController];
         settingsViewController.delegate = self;
-//        HistoryTableViewController *historyVC = segue.destinationViewController;
-//        UIPopoverPresentationController *popover = historyVC.popoverPresentationController;
-//        popover.delegate = self;
-//        historyVC.delegate = self;
-//        
-//        historyVC.history = searchHistory;
-//        
-//        historyVC.modalPresentationStyle = UIModalPresentationPopover;
-//        float contentSize = searchHistory.count * 44;
-//        
-//        historyVC.preferredContentSize = CGSizeMake(200, contentSize);
+        settingsViewController.currentLocation = self.location;
     }
 }
 
@@ -207,13 +213,10 @@
     
     [self setInitialBGViewProperties];
     
-    //
+    [self refreshFavoriteButton];
     
-    Location *location = [[Location alloc] init];
-    location.lat = @"28.5409840";
-    location.lng = @"-81.3777390";
-    _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
-    [self.apiController searchForWeather:location];
+    self.apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
+    [self.apiController searchForWeather:self.location];
 }
 
 - (void)setInitialBGViewProperties
@@ -226,14 +229,16 @@
 
 - (void)setMainInfoViewWeatherLabels
 {
-    if (weather)
+    
+    
+    if (self.location.weather)
     {
         [animator slideToOrigin:self.mainInfoView fromPoint:self.mainInfoView.frame.origin.y + 30 identifier:SlideVertically];
-        [self.temperatureLabel setText:[NSString stringWithFormat:@"%@", weather.temperature]];
-        [self.locationLabel setText: [NSString stringWithFormat:@"Orlando, FL"]];
-        [self.quickWeatherLabel setText:[NSString stringWithFormat:@"%@", weather.summary]];
+        [self.temperatureLabel setText:[NSString stringWithFormat:@"%@", self.location.weather.temperature]];
+        [self.locationLabel setText: [NSString stringWithFormat:@"%@,%@", self.location.city, self.location.state]];
+        [self.quickWeatherLabel setText:[NSString stringWithFormat:@"%@", self.location.weather.summary]];
         
-        NSString *imageName = [NSString stringWithFormat:@"%@-big", weather.icon];
+        NSString *imageName = [NSString stringWithFormat:@"%@-big", self.location.weather.icon];
         
         [self.weatherImgView setImage:[UIImage imageNamed:imageName]];
         [self.weatherImgView setTintColor:[UIColor whiteColor]];
@@ -245,14 +250,54 @@
     WeatherTableTableViewController *weatherTableVC =
         (WeatherTableTableViewController *)self.childViewControllers[0];
     
-    if (weather && weatherTableVC)
+    if (self.location.weather && weatherTableVC)
     {
-        weatherTableVC.weather = weather;
+        weatherTableVC.weather = self.location.weather;
         [weatherTableVC.tableView flashScrollIndicators];
         [weatherTableVC.tableView reloadData];
     }
 }
 
+#pragma mark - Buttons
+
+- (IBAction)buttonTouchDown:(UIButton *)sender
+{
+    [animator animateTransform:sender widthScale:0.9 heightScale:0.9 duration:0.25];
+}
+
+- (IBAction)buttonTouchUpOutside:(UIButton *)sender
+{
+    [animator animateTransform:sender widthScale:1 heightScale:1 duration:0.25];
+}
+
+- (IBAction)buttonTouchUpInside:(UIButton *)sender
+{
+    [animator animateTransform:sender widthScale:1 heightScale:1 duration:0.25];
+    
+    if ([sender isEqual:self.favoriteButton])
+    {
+        self.location.favorite = !self.location.favorite;
+
+        [self.savedDataManager addOrRemoveLocation:self.location];
+        [self refreshFavoriteButton];
+    }
+}
+
+- (void)refreshFavoriteButton
+{
+    UIImage *favoriteImg;
+    
+    if (self.location.favorite)
+    {
+        favoriteImg = [UIImage imageNamed:@"favorite-fill"];
+    }
+    else
+    {
+        favoriteImg = [UIImage imageNamed:@"favorite"];
+    }
+    
+    [self.favoriteButton setImage:favoriteImg forState:UIControlStateNormal];
+}
 
 #pragma mark - Animation Completion Delegate
 
@@ -281,7 +326,7 @@
 
 - (void)darkSkySearchDidComplete:(NSDictionary *)results location:(Location *)location
 {
-    weather = [[Weather alloc] initWithResults:results];
+    self.location.weather = [[Weather alloc] initWithResults:results];
     [self setMainInfoViewWeatherLabels];
     [self setWeeklyForecastTableView];
 }
@@ -290,8 +335,11 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
-    [self.apiController searchForWeather:location];
+//    _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
+    
+    self.location = location;
+    
+//    [self.apiController searchForWeather:location];
 }
 
 @end

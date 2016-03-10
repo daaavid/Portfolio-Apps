@@ -9,14 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "Weather.h"
 
-@interface Location : NSObject
+@interface Location : NSObject <NSCoding>
 
 @property (nonatomic) NSString *lat;
 @property (nonatomic) NSString *lng;
 @property (nonatomic) NSString *city;
 @property (nonatomic) NSString *state;
 @property (nonatomic) Weather *weather;
+@property (nonatomic) BOOL favorite;
 
+- (instancetype)init:(NSString *)lat
+                 lng:(NSString *)lng
+                city:(NSString *)city
+               state:(NSString *)state;
+
+- (Location *)initSampleLocation;
 + (Location *)locationFromJSON:(NSArray *)results;
 
 @end

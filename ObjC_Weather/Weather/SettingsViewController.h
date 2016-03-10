@@ -16,5 +16,6 @@
 @interface SettingsViewController : UIViewController <UISearchBarDelegate, GooglePlacesAPIProtocol>
 
 @property (nonatomic) id <LocationWasChosenProtocol> delegate;
+@property (nonatomic) Location *currentLocation;
 
 @end
