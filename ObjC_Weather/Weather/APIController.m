@@ -17,6 +17,7 @@
 @implementation APIController
 {
     NSMutableData *receivedData;
+    NSArray *locationsBuffer;
     Location *locationBuffer;
 }
 
@@ -25,6 +26,15 @@
     if (self = [super init])
     {
         _darkSkyDelegate = delegate;
+    }
+    return self;
+}
+
+- (instancetype)initWithDarkSkyBatchDelegate:(id <DarkSkyBatchAPIProtocol>)delegate;
+{
+    if (self = [super init])
+    {
+        _darkSkyBatchDelegate = delegate;
     }
     return self;
 }
@@ -88,6 +98,40 @@
     [self beginTaskWithURLString:urlString andTaskDescription:@"DarkSky"];
     
 //    NSLog(@"%@", urlString);
+}
+
+- (void)searchForWeatherWithArray:(NSArray *)locations
+{
+    locationsBuffer = [NSArray array];
+    locationsBuffer = locations;
+    
+    for (Location *location in locations)
+    {
+        NSString *apiKey = @"20e7ef512551da7f8d7ab6d2c9b4128c/";
+        NSString *urlString = [NSString stringWithFormat:
+                               @"https://api.forecast.io/forecast/%@%@,%@", apiKey, location.lat, location.lng];
+        
+//        NSUInteger *locationDescription = [location hash];
+        NSString *locationDescription = [NSString stringWithFormat:@"%@,%@", location.city, location.state];
+        NSURL *url = [NSURL URLWithString:urlString];
+        
+        NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:url
+            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
+        {
+            if (!error)
+            {
+                NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                [self.darkSkyBatchDelegate darkSkySearchDidComplete:results locationDescription:locationDescription];
+            }
+        }];
+        
+        [task resume];
+        
+        
+        
+//        [self beginTaskWithURLString:urlString andTaskDescription:locationDescription];
+    }
+    //    NSLog(@"%@", urlString);
 }
 
 -(void)beginTaskWithURLString:(NSString *)urlString andTaskDescription:(NSString *)description
@@ -178,6 +222,10 @@
                     [self.googleMapsDelegate googleMapsSearchDidComplete:location];
                 }
             }
+        }
+        else
+        {
+//            [self.darkSkyBatchDelegate darkSkySearchDidComplete:results locationDescription:identifier];
         }
     }
 }

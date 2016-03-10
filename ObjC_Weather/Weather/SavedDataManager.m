@@ -67,7 +67,6 @@
     {
         [self.savedLocations addObject:location];
     }
-    
     else
     {
         NSMutableArray *trimmedLocations = [NSMutableArray array];
@@ -177,6 +176,19 @@
     
     NSLog(@"\ntrimmed locations: %@", trimmedLocations);
     return trimmedLocations;
+}
+
+- (BOOL)containsLocation:(Location *)location
+{
+    for (Location *savedLocation in self.savedLocations)
+    {
+        if ([savedLocation.city isEqualToString:location.city] && [savedLocation.state isEqualToString:location.state])
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 @end

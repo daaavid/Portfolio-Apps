@@ -8,10 +8,15 @@
 
 #import "LocationSearchTableViewController.h"
 #import "ViewManager.h"
+#import "ForecastCell.h"
 
 @interface LocationSearchTableViewController ()
+<
+DarkSkyBatchAPIProtocol
+>
 {
     ListMode listMode;
+    APIController *apiController;
 }
 
 @end
@@ -24,6 +29,11 @@
     
     self.searchResults = [[NSMutableArray alloc] init];
     listMode = Saved;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,60 +56,117 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell" forIndexPath:indexPath];
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell" forIndexPath:indexPath];
+    ForecastCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell" forIndexPath:indexPath];
     
     if ([self.searchResults count] > 0)
     {
-        cell.detailTextLabel.text = @"";
+//        BOOL current = NO;
+        
+        cell.weekdayLabel.textColor = [ViewManager setColorBasedOnTimeOfDay];
+        cell.temperatureLabel.textColor = [ViewManager setColorBasedOnTimeOfDay];
+        
+        cell.weekdayLabel.text = @"";
+        cell.temperatureLabel.text = @"";
         
         Location *location = self.searchResults[indexPath.row];
+        NSString *locationStr;
+        
+
         
         if (listMode == Search)
         {
-            NSString *locationStr = [NSString stringWithFormat:@"%@,%@", location.city, location.state];
+            locationStr = [NSString stringWithFormat:@"%@,%@", location.city, location.state];
             if (location.country)
             {
                 locationStr = [NSString stringWithFormat:@"%@,%@,%@", location.city, location.state, location.country];
             }
             
-            cell.textLabel.text = locationStr;
+            cell.weekdayLabel.text = locationStr;
         }
         else if (listMode == Saved)
         {
-            NSString *locationStr = [NSString stringWithFormat:@"%@,%@", location.city, location.state];
-            cell.textLabel.text = locationStr;
+            locationStr = [NSString stringWithFormat:@"%@,%@", location.city, location.state];
         }
         
         
-        
-        if (
-            [location.city isEqualToString:self.currentLocation.city]
-            && [location.state isEqualToString:self.currentLocation.state]
-            )
+        if ([self location:self.currentLocation isEqualToLocation:location])
         {
-            cell.detailTextLabel.text = @"Current";
+            //            current = YES;
+            cell.temperatureLabel.text = @"Current";
+            cell.temperatureLabel.textColor = [UIColor lightGrayColor];
+        }
+        else if (location.weather)
+        {
+            cell.temperatureLabel.text = [NSString stringWithFormat:@"%@°", location.weather.temperature];
+            cell.weatherImageView.image = [UIImage imageNamed:location.weather.icon];
+            cell.weatherImageView.tintColor = [ViewManager setColorBasedOnTimeOfDay];
         }
         
-        cell.textLabel.textColor = [ViewManager setColorBasedOnTimeOfDay];
+        cell.weekdayLabel.text = locationStr;
+        
     }
     
     return cell;
+}
+
+- (void)getWeatherForSavedLocations
+{
+    if (listMode == Saved)
+    {
+        apiController = [[APIController alloc] initWithDarkSkyBatchDelegate:self];
+        [apiController searchForWeatherWithArray:self.searchResults];
+    }
+}
+
+- (void)darkSkySearchDidComplete:(NSDictionary *)results locationDescription:(NSString *)description
+{
+    if (listMode == Saved)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (Location *location in self.searchResults)
+            {
+                NSString *locationDescription = [NSString stringWithFormat:@"%@,%@", location.city, location.state];
+                //            NSString *locationDescription = [NSString stringWithFormat:@"%@, %@", location.lat, location.lng];
+                //            NSString *savedLocationDescription = [NSString stringWithFormat:@"%lu", (unsigned long)[location hash]];
+                if ([locationDescription isEqualToString:description])
+                {
+                    location.weather = [[Weather alloc] initWithResults:results];
+                }
+            }
+            
+            [self.tableView reloadData];
+        });
+    }
+}
+
+- (BOOL)location:(Location *)location isEqualToLocation:(Location *)otherLocation
+{
+    if (
+        [location.city isEqualToString:otherLocation.city]
+        && [location.state isEqualToString:otherLocation.state]
+        )
+    {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    Location *selectedLocation = self.searchResults[indexPath.row];
+    
     if (listMode == Search)
     {
-        NSString *selectedResult = self.searchResults[indexPath.row];
+        NSString *selectedResult = [NSString stringWithFormat:@"%@,%@,%@",
+                                    selectedLocation.city, selectedLocation.state, selectedLocation.country];
         
         [self.delegate locationWasChosenFromResults:selectedResult];
     }
     else if (listMode == Saved)
     {
-        Location *selectedLocation = self.searchResults[indexPath.row];
-        
         [self.delegate locationWasChosenFromResults:selectedLocation];
     }
 }
@@ -108,9 +175,29 @@
 {
 //    NSLog(@"showResults");
     [self.searchResults addObjectsFromArray:results];
+    
+    if (listMode == Saved)
+    {
+        for (Location *location in results)
+        {
+            if ([location.city isEqualToString:self.currentLocation.city]
+                && [location.state isEqualToString:self.currentLocation.state])
+            {
+                [self.searchResults removeObject:location];
+            }
+        }
+        
+        [self.searchResults insertObject:self.currentLocation atIndex:0];
+        
+        
+        [self trimDuplicateLocations:self.searchResults];
+        
+        [self getWeatherForSavedLocations];
+    }
+    
     [self.tableView reloadData];
     
-    [self.settingsViewController setContainerViewHeight:results];
+    [self.settingsViewController setContainerViewHeight:self.searchResults];
 }
 
 - (void)removeResults
@@ -126,7 +213,7 @@
     if (selectedSegmentIndex == 0)
     {
         listMode = Saved;
-        
+        [self getWeatherForSavedLocations];
 //        [self.searchResults addObject:currentLocation];
     }
     else
@@ -136,6 +223,32 @@
     
     [self.tableView reloadData];
 }
+
+- (NSMutableArray *)trimDuplicateLocations:(NSArray *)locations
+{
+    NSMutableArray *trimmedLocations = [NSMutableArray array];
+    
+    NSMutableSet *citiesBuffer = [NSMutableSet set];
+    NSMutableSet *statesBuffer = [NSMutableSet set];
+    
+    for (Location *location in locations)
+    {
+        if (
+            ![citiesBuffer containsObject:location.city]
+            && ![statesBuffer containsObject:location.state]
+            ) {
+            
+            [citiesBuffer addObject:location.city];
+            [statesBuffer addObject:location.state];
+            
+            [trimmedLocations addObject:location];
+        }
+    }
+
+    NSLog(@"\ntrimmed locations: %@", trimmedLocations);
+    return trimmedLocations;
+}
+
 
 /*
 // Override to support conditional editing of the table view.

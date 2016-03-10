@@ -24,5 +24,6 @@
 - (void)saveLocations:(Location *)currentLocation;
 - (void)loadLocations;
 - (void)addOrRemoveLocation:(Location *)location;
+- (BOOL)containsLocation:(Location *)location;
 
 @end

@@ -18,6 +18,10 @@ typedef enum {
 - (void)darkSkySearchDidComplete:(NSDictionary *)results location:(Location *)location;
 @end
 
+@protocol DarkSkyBatchAPIProtocol
+- (void)darkSkySearchDidComplete:(NSDictionary *)results locationDescription:(NSString *)description;
+@end
+
 @protocol GooglePlacesAPIProtocol <NSObject>
 - (void)googlePlacesSearchDidComplete:(NSArray *)results;
 @end
@@ -29,15 +33,18 @@ typedef enum {
 @interface APIController : NSObject <NSURLSessionDelegate>
 
 @property (nonatomic) id <DarkSkyAPIProtocol> darkSkyDelegate;
+@property (nonatomic) id <DarkSkyBatchAPIProtocol> darkSkyBatchDelegate;
 @property (nonatomic) id <GooglePlacesAPIProtocol> googlePlacesDelegate;
 @property (nonatomic) id <GoogleMapsAPIProtocol> googleMapsDelegate;
 
 - (instancetype)initWithDarkSkyDelegate:(id <DarkSkyAPIProtocol>)delegate;
+- (instancetype)initWithDarkSkyBatchDelegate:(id <DarkSkyBatchAPIProtocol>)delegate;
 - (instancetype)initWithGooglePlacesDelegate:(id <GooglePlacesAPIProtocol>)delegate;
 - (instancetype)initWithGoogleMapsDelegate:(id <GoogleMapsAPIProtocol>)delegate;
 
 - (void)searchGooglePlacesFor:(NSString *)searchTerm;
 - (void)searchForWeather:(Location *)location;
+- (void)searchForWeatherWithArray:(NSArray *)locations;
 - (void)searchGoogleMapsFor:(NSString *)searchTerm;
 
 @end

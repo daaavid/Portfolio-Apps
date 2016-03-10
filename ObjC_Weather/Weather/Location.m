@@ -21,6 +21,7 @@
         _lng   = lng;
         _city  = city;
         _state = state;
+        _favorite = NO;
     }
     return self;
 }
@@ -122,6 +123,7 @@
         _lng = [aDecoder decodeObjectForKey:@"lng"];
         _city = [aDecoder decodeObjectForKey:@"city"];
         _state = [aDecoder decodeObjectForKey:@"state"];
+        _favorite = [aDecoder decodeObjectForKey:@"favorite"];
     }
     return self;
 }
@@ -132,6 +134,7 @@
     [aCoder encodeObject:_lng forKey:@"lng"];
     [aCoder encodeObject:_city forKey:@"city"];
     [aCoder encodeObject:_state forKey:@"state"];
+    [aCoder encodeBool:_favorite forKey:@"favorite"];
 }
 
 @end

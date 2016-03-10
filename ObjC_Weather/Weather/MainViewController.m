@@ -39,6 +39,7 @@ LoadedLocationProtocol
     
     CGRect originalWeatherFrame;
     BOOL transformed;
+    BOOL refresh;
 }
 
 #pragma mark - views
@@ -103,22 +104,18 @@ LoadedLocationProtocol
 {
     [super viewDidAppear:animated];
     
-    self.mainInfoView.frame = originalWeatherFrame;
-}
-
-- (void)managedSavedData
-{
-    if (!self.savedDataManager)
+//    [self refreshFavoriteButton];
+    
+    if (refresh)
     {
-        _savedDataManager = [[SavedDataManager alloc] initWithDelegate:self];
+        _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
+        [self.apiController searchForWeather:self.location];
     }
-}
-
-- (void)locationsWereLoaded:(Location *)currentLocation
-{
-    self.location = currentLocation;
-    self.apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
-    [self.apiController searchForWeather:self.location];
+    refresh = NO;
+    
+    self.mainInfoView.frame = originalWeatherFrame;
+    
+    [self refreshFavorites];
 }
 
 #pragma mark - Navigation
@@ -226,8 +223,6 @@ LoadedLocationProtocol
 //    NSLog(@"%f", left.frame.origin.x);
     
     [self setInitialBGViewProperties];
-    
-    [self refreshFavoriteButton];
 }
 
 - (void)setInitialBGViewProperties
@@ -295,18 +290,29 @@ LoadedLocationProtocol
         }
 
         [self.savedDataManager addOrRemoveLocation:self.location];
-        [self refreshFavoriteButton];
+        [self refreshFavorites];
     }
 }
 
-- (void)refreshFavoriteButton
+- (void)refreshFavorites
 {
     UIImage *favoriteImg;
     
-    if (self.location.favorite)
+    [self.savedDataManager saveLocations:self.location];
+    
+    if ([self.savedDataManager containsLocation:self.location])
     {
         favoriteImg = [UIImage imageNamed:@"favorite-fill"];
     }
+    
+//    if ([self.savedDataManager.savedLocations containsObject:self.location])
+//    {
+//
+//    }
+//    if (self.location.favorite)
+//    {
+//        favoriteImg = [UIImage imageNamed:@"favorite-fill"];
+//    }
     else
     {
         favoriteImg = [UIImage imageNamed:@"favorite"];
@@ -345,19 +351,37 @@ LoadedLocationProtocol
     self.location.weather = [[Weather alloc] initWithResults:results];
     [self setMainInfoViewWeatherLabels];
     [self setWeeklyForecastTableView];
+    
+    [self refreshFavorites];
 }
 
 - (void)locationWasChosen:(Location *)location
 {
     self.location = location;
-    
-    _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
-    [self.apiController searchForWeather:location];
+    refresh = YES;
 }
 
 - (void)dismissSettings
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)managedSavedData
+{
+    if (!self.savedDataManager)
+    {
+        _savedDataManager = [[SavedDataManager alloc] initWithDelegate:self];
+    }
+}
+
+- (void)locationsWereLoaded:(Location *)currentLocation
+{
+    self.location = currentLocation;
+    self.apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
+    [self.apiController searchForWeather:self.location];
+    
+    [self refreshFavorites];
 }
 
 @end
