@@ -17,7 +17,8 @@
 UITextFieldDelegate,
 AnimationDidCompleteProtocol,
 LocationStringWasChosenProtocol,
-GoogleMapsAPIProtocol
+GoogleMapsAPIProtocol,
+LoadedLocationProtocol
 >
 {
     LocationSearchTableViewController *locationSearchTableViewController;
@@ -28,7 +29,6 @@ GoogleMapsAPIProtocol
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, weak) IBOutlet UIView *containerContainerView;
-
 
 @end
 
@@ -44,19 +44,28 @@ GoogleMapsAPIProtocol
     
     locationSearchTableViewController = [self.childViewControllers firstObject];
     locationSearchTableViewController.delegate = self;
+    locationSearchTableViewController.settingsViewController = self;
     
     [ViewManager setBackgroundGradientToView:self.view];
     
     [ViewManager setViewCornerRadius:self.containerContainerView cornerRadius:4];
     
-    animator = [[AnimationManager alloc] initWithDelegate:self];
-    
     [self setSearchBarTextColor:[UIColor whiteColor]];
+    
+    self.segmentedControl.selectedSegmentIndex = 0;
+    [self showSavedLocations];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [animator animateTransform:self.containerContainerView width:self.containerContainerView.frame.size.width height:44.0 duration:0.25];
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.delegate locationWasChosen:self.currentLocation];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -83,16 +92,20 @@ GoogleMapsAPIProtocol
 {
     if (![self.searchBar.text isEqualToString:@""])
     {
+        [self.searchBar setUserInteractionEnabled:NO];
+        
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         apiController = [[APIController alloc] initWithGooglePlacesDelegate:self];
         [apiController searchGooglePlacesFor:self.searchBar.text];
-        NSLog(@"%@", self.searchBar.text);
+//        NSLog(@"%@", self.searchBar.text);
     }
 }
 
 - (void)googlePlacesSearchDidComplete:(NSArray *)results
 {
     NSLog(@"googlePlacesSearchDidComplete");
+    
+    [self.searchBar setUserInteractionEnabled:YES];
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
@@ -102,33 +115,45 @@ GoogleMapsAPIProtocol
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            NSMutableArray *descriptions = [[NSMutableArray alloc] init];
+            NSArray *locations = [Location locationsFromGooglePlacesResults:results];
+            [locationSearchTableViewController showResults:locations];
             
-            for (NSDictionary *prediction in results)
-            {
-                NSString *description = (NSString *)prediction[@"description"];
-                [descriptions addObject:description];
-                
-            }
             
-            [locationSearchTableViewController showResults:descriptions];
+            
+//            NSMutableArray *descriptions = [[NSMutableArray alloc] init];
+//            
+//            for (NSDictionary *prediction in results)
+//            {
+//                NSString *description = (NSString *)prediction[@"description"];
+//                [descriptions addObject:description];
+//            }
+//            
+//            [locationSearchTableViewController showResults:descriptions];
             
             //
             
-            [self setContainerViewHeight:results];
+//            [self setContainerViewHeight:results];
         });
     }
 }
 
 - (void)setContainerViewHeight:(NSArray *)results
 {
-    double newHeight = [results count] * 44.0;
-    
-    if (newHeight > (self.view.frame.size.height - 88)) {
-        newHeight = self.view.frame.size.height - 88;
-    }
-    
-    [animator animateTransform:self.containerContainerView width:self.containerContainerView.frame.size.width height:newHeight duration:0.25];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        double newHeight = [results count] * 44.0;
+        
+        if (newHeight > (self.view.frame.size.height - 88)) {
+            newHeight = self.view.frame.size.height - 88;
+        }
+        
+        animator = [[AnimationManager alloc] initWithDelegate:self];
+        [animator
+         animateTransform:self.containerContainerView
+         width:self.containerContainerView.frame.size.width
+         height:newHeight
+         duration:0.25];
+    });
 }
 
 - (void)animationDidComplete:(UIView *)view identifier:(AnimationIdentifier)identifier
@@ -147,7 +172,8 @@ GoogleMapsAPIProtocol
     }
     else if ([location isKindOfClass:[Location class]])
     {
-        [self.delegate locationWasChosen:location];
+        self.currentLocation = location;
+        [self.delegate dismissSettings];
     }
 }
 
@@ -155,7 +181,8 @@ GoogleMapsAPIProtocol
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
-    [self.delegate locationWasChosen:location];
+    self.currentLocation = location;
+    [self.delegate dismissSettings];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -169,26 +196,50 @@ GoogleMapsAPIProtocol
 
 #pragma mark - Segmented Control
 
-- (IBAction)segmentedContolValueChanged:(UISegmentedControl *)sender
+- (IBAction)segmentedControlValueChanged:(UISegmentedControl *)sender
 {
-    [locationSearchTableViewController listModeChanged:sender.selectedSegmentIndex currentLocation:self.currentLocation];
+    [locationSearchTableViewController listModeChanged:sender.selectedSegmentIndex];
     
     if (sender.selectedSegmentIndex == 0)
     {
-        [self.searchBar resignFirstResponder];
-        self.searchBar.userInteractionEnabled = NO;
-        [self setSearchBarTextColor:[UIColor lightGrayColor]];
-        
-        [self setContainerViewHeight:locationSearchTableViewController.searchResults];
+        [self showSavedLocations];
     }
     else
     {
-        self.searchBar.userInteractionEnabled = YES;
-        [self.searchBar becomeFirstResponder];
-        [self setSearchBarTextColor:[UIColor whiteColor]];
-        
-        [self startSearch];
+        [self startLocationSearch];
     }
+}
+
+- (void)showSavedLocations
+{
+    [self.searchBar resignFirstResponder];
+    self.searchBar.userInteractionEnabled = NO;
+    [self setSearchBarTextColor:[UIColor lightGrayColor]];
+    
+    locationSearchTableViewController.currentLocation = self.currentLocation;
+    
+    self.savedDataManager.delegate = self;
+    [self.savedDataManager loadLocations];
+}
+
+- (void)startLocationSearch
+{
+    self.searchBar.userInteractionEnabled = YES;
+    [self.searchBar becomeFirstResponder];
+    [self setSearchBarTextColor:[UIColor whiteColor]];
+    
+    [self startSearch];
+}
+
+- (void)locationsWereLoaded:(Location *)currentLocation
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [locationSearchTableViewController showResults:self.savedDataManager.savedLocations];
+        
+        NSLog(@"saved locations count: %lu", (unsigned long)[self.savedDataManager.savedLocations count]);
+        
+//        [self setContainerViewHeight:self.savedDataManager.savedLocations];
+    });
 }
 
 #pragma mark - Buttons

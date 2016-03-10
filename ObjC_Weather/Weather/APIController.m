@@ -61,7 +61,7 @@
                                types,
                                apiKey];
     
-    NSLog(@"%@", fullURLString);
+//    NSLog(@"%@", fullURLString);
     
     [self beginTaskWithURLString:fullURLString andTaskDescription:@"GooglePlaces"];
     
@@ -86,6 +86,8 @@
                            @"https://api.forecast.io/forecast/%@%@,%@", apiKey, location.lat, location.lng];
     
     [self beginTaskWithURLString:urlString andTaskDescription:@"DarkSky"];
+    
+//    NSLog(@"%@", urlString);
 }
 
 -(void)beginTaskWithURLString:(NSString *)urlString andTaskDescription:(NSString *)description
@@ -186,7 +188,7 @@
     {
         Location *location = [Location locationFromJSON:results];
         
-        NSLog(@"%@", location);
+//        NSLog(@"%@", location);
         
         return location;
     }

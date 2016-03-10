@@ -27,7 +27,8 @@
 UIPopoverPresentationControllerDelegate,
 AnimationDidCompleteProtocol,
 DarkSkyAPIProtocol,
-LocationWasChosenProtocol
+LocationWasChosenProtocol,
+LoadedLocationProtocol
 >
 {
     AnimationManager *animator;
@@ -70,7 +71,6 @@ LocationWasChosenProtocol
 
 //other
 @property (nonatomic, strong) APIController *apiController;
-@property (nonatomic, strong) Location *location;
 
 @end
 
@@ -80,12 +80,7 @@ LocationWasChosenProtocol
 {
     [super viewDidLoad];
     
-    NSLog(@"viewDidLoad");
-    
-    if (!self.location)
-    {
-        _location = [[Location alloc] initSampleLocation];
-    }
+//    NSLog(@"viewDidLoad");
     
     if (!transformed)
     {
@@ -94,11 +89,14 @@ LocationWasChosenProtocol
         transformed = YES;
     }
     
-    if (!self.savedDataManager)
-    {
-        _savedDataManager = [[SavedDataManager alloc] init];
-    }
+    [self managedSavedData];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
+    [self performViewSetup];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -106,8 +104,21 @@ LocationWasChosenProtocol
     [super viewDidAppear:animated];
     
     self.mainInfoView.frame = originalWeatherFrame;
-    
-    [self performViewSetup];
+}
+
+- (void)managedSavedData
+{
+    if (!self.savedDataManager)
+    {
+        _savedDataManager = [[SavedDataManager alloc] initWithDelegate:self];
+    }
+}
+
+- (void)locationsWereLoaded:(Location *)currentLocation
+{
+    self.location = currentLocation;
+    self.apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
+    [self.apiController searchForWeather:self.location];
 }
 
 #pragma mark - Navigation
@@ -119,6 +130,9 @@ LocationWasChosenProtocol
         SettingsViewController *settingsViewController = (SettingsViewController *)[segue destinationViewController];
         settingsViewController.delegate = self;
         settingsViewController.currentLocation = self.location;
+        settingsViewController.savedDataManager = self.savedDataManager;
+        
+//        NSLog(@"%@", self.savedDataManager.savedLocations);
     }
 }
 
@@ -172,7 +186,7 @@ LocationWasChosenProtocol
 
 - (void)performViewSetup
 {
-    NSLog(@"performViewSetup");
+//    NSLog(@"performViewSetup");
     
     [self.containerView setAlpha:0];
     
@@ -209,14 +223,11 @@ LocationWasChosenProtocol
     [animator slideToOrigin:left fromPoint:left.frame.origin.x - 60 identifier:SlideHorizontally];
     [animator slideToOrigin:right fromPoint:right.frame.origin.x + 60 identifier:SlideHorizontally];
     
-    NSLog(@"%f", left.frame.origin.x);
+//    NSLog(@"%f", left.frame.origin.x);
     
     [self setInitialBGViewProperties];
     
     [self refreshFavoriteButton];
-    
-    self.apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
-    [self.apiController searchForWeather:self.location];
 }
 
 - (void)setInitialBGViewProperties
@@ -229,8 +240,6 @@ LocationWasChosenProtocol
 
 - (void)setMainInfoViewWeatherLabels
 {
-    
-    
     if (self.location.weather)
     {
         [animator slideToOrigin:self.mainInfoView fromPoint:self.mainInfoView.frame.origin.y + 30 identifier:SlideVertically];
@@ -276,7 +285,14 @@ LocationWasChosenProtocol
     
     if ([sender isEqual:self.favoriteButton])
     {
-        self.location.favorite = !self.location.favorite;
+        if (!self.location.favorite)
+        {
+            self.location.favorite = YES;
+        }
+        else
+        {
+            self.location.favorite = NO;
+        }
 
         [self.savedDataManager addOrRemoveLocation:self.location];
         [self refreshFavoriteButton];
@@ -333,13 +349,15 @@ LocationWasChosenProtocol
 
 - (void)locationWasChosen:(Location *)location
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-//    _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
-    
     self.location = location;
     
-//    [self.apiController searchForWeather:location];
+    _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
+    [self.apiController searchForWeather:location];
+}
+
+- (void)dismissSettings
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

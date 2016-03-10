@@ -8,14 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "APIController.h"
+#import "SavedDataManager.h"
 
 @protocol LocationWasChosenProtocol
 - (void)locationWasChosen:(Location *)location;
+- (void)dismissSettings;
 @end
 
 @interface SettingsViewController : UIViewController <UISearchBarDelegate, GooglePlacesAPIProtocol>
 
 @property (nonatomic) id <LocationWasChosenProtocol> delegate;
 @property (nonatomic) Location *currentLocation;
+@property (nonatomic) SavedDataManager *savedDataManager;
+
+- (void)setContainerViewHeight:(NSArray *)results;
 
 @end

@@ -857,7 +857,7 @@
                                 </segments>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <action selector="segmentedContolValueChanged:" destination="Q5U-IY-IaE" eventType="valueChanged" id="2PJ-RV-RPZ"/>
+                                    <action selector="segmentedControlValueChanged:" destination="Q5U-IY-IaE" eventType="valueChanged" id="qa5-81-jaD"/>
                                 </connections>
                             </segmentedControl>
                         </subviews>
@@ -886,7 +886,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="400" height="600"/>
                     <connections>
-                        <outlet property="containerContainerView" destination="jLb-9I-TRy" id="wYJ-yP-uVg"/>
+                        <outlet property="containerContainerView" destination="jLb-9I-TRy" id="1Yl-nc-2vc"/>
                         <outlet property="searchBar" destination="IG0-Jy-dJd" id="BAe-Wp-kyr"/>
                         <outlet property="searchDisplayController" destination="BSG-hN-zv4" id="Pge-Zy-eS3"/>
                         <outlet property="segmentedControl" destination="6Ez-RT-BQf" id="GOm-Yq-9pa"/>

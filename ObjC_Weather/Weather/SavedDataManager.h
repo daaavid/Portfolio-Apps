@@ -9,16 +9,20 @@
 #import <Foundation/Foundation.h>
 #import "Location.h"
 
+@protocol LoadedLocationProtocol
+- (void)locationsWereLoaded:(Location *)currentLocation;
+@end
+
 @interface SavedDataManager : NSObject
-{
-//    SavedDataManager *savedDataManager;
-}
 
 @property (nonatomic, strong) NSMutableArray *savedLocations;
+@property (nonatomic, strong) Location *currentLocation;
+@property (nonatomic) id <LoadedLocationProtocol> delegate;
 
-- (void)saveLocations;
-- (BOOL)loadLocations;
+- (instancetype)initWithDelegate:(id <LoadedLocationProtocol>)delegate;
 
+- (void)saveLocations:(Location *)currentLocation;
+- (void)loadLocations;
 - (void)addOrRemoveLocation:(Location *)location;
 
 @end

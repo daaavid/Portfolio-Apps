@@ -17,5 +17,6 @@
 @interface MainViewController : UIViewController
 
 @property (nonatomic, strong) SavedDataManager *savedDataManager;
+@property (nonatomic, strong) Location *location;
 
 @end

@@ -111,6 +111,7 @@ date                    :(NSDate *)date;
     }
     
     NSNumber *time          = (NSNumber *)dictionary[@"time"];
+//    NSLog(@"%@", time);
     NSDate *date            = [[NSDate alloc] initWithTimeIntervalSince1970:[time doubleValue]];
     
 //    NSLog(@"%@, %@", time, date);

@@ -37,6 +37,16 @@
     return location;
 }
 
+- (Location *)initWithCity:(NSString *)city andState:(NSString *)state andCountry:(NSString *)country;
+{
+    Location *location = [[Location alloc] init];
+    location.city = city;
+    location.state = state;
+    location.country = country;
+    
+    return location;
+}
+
 + (Location *)locationFromJSON:(NSArray *)results
 {
     NSString *lat   = [[NSString alloc] init];
@@ -76,6 +86,32 @@
     }
     
     return [[Location alloc] init:lat lng:lng city:city state:state];
+}
+
++ (NSArray *)locationsFromGooglePlacesResults:(NSArray *)results
+{
+    NSMutableArray *locations = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *prediction in results)
+    {
+        NSString *description = (NSString *)prediction[@"description"];
+        NSArray *components = [description componentsSeparatedByString:@","];
+        
+        NSString *city = components[0];
+        NSString *state = components[1];
+        NSString *country;
+        
+        if (components[2])
+        {
+            country = components[2];
+        }
+        
+        Location *location = [[Location alloc] initWithCity:city andState:state andCountry:country];
+        
+        [locations addObject:location];
+    }
+    
+    return locations;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder

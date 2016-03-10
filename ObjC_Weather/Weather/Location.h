@@ -15,6 +15,7 @@
 @property (nonatomic) NSString *lng;
 @property (nonatomic) NSString *city;
 @property (nonatomic) NSString *state;
+@property (nonatomic) NSString *country;
 @property (nonatomic) Weather *weather;
 @property (nonatomic) BOOL favorite;
 
@@ -25,5 +26,6 @@
 
 - (Location *)initSampleLocation;
 + (Location *)locationFromJSON:(NSArray *)results;
++ (NSArray *)locationsFromGooglePlacesResults:(NSArray *)results;
 
 @end

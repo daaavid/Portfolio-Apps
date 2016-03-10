@@ -10,24 +10,26 @@
 
 @implementation SavedDataManager
 
-- (instancetype)init
+- (instancetype)initWithDelegate:(id <LoadedLocationProtocol>)delegate;
 {
     if (self = [super init])
     {
+        _delegate = delegate;
         [self loadLocations];
     }
     return self;
 }
 
-- (void)saveLocations
+- (void)saveLocations:(Location *)currentLocation
 {
     NSData *savedLocationsData = [NSKeyedArchiver archivedDataWithRootObject:self.savedLocations];
     [[NSUserDefaults standardUserDefaults] setObject:savedLocationsData forKey:@"kSavedLocationsData"];
     
-    NSData *savedCurrentLocationData = [NSKeyedArchiver archivedDataWithRootObject:self.savedLocations];
+    NSData *savedCurrentLocationData = [NSKeyedArchiver archivedDataWithRootObject:currentLocation];
+    [[NSUserDefaults standardUserDefaults] setObject:savedCurrentLocationData forKey:@"kSavedCurrentLocationData"];
 }
 
-- (BOOL)loadLocations
+- (void)loadLocations
 {
     NSData *loadedLocationsData = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSavedLocationsData"];
     NSArray *loadedLocationsArray = [NSKeyedUnarchiver unarchiveObjectWithData:loadedLocationsData];
@@ -36,14 +38,27 @@
     {
         [self.savedLocations removeAllObjects];
         [self.savedLocations addObjectsFromArray:loadedLocationsArray];
-        return YES;
+    }
+//    else
+//    {
+//        self.savedLocations = [NSMutableArray array];
+//    }
+    
+    NSData *loadedCurrentLocationData = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSavedCurrentLocationData"];
+    Location *loadedCurrentLocation = [NSKeyedUnarchiver unarchiveObjectWithData:loadedCurrentLocationData];
+    
+    if (loadedCurrentLocation)
+    {
+        self.currentLocation = loadedCurrentLocation;
     }
     else
     {
-        self.savedLocations = [NSMutableArray array];
+        self.currentLocation = [[Location alloc] initSampleLocation];
     }
     
-    return NO;
+    self.savedLocations = [self trimDuplicateLocations];
+    
+    [self.delegate locationsWereLoaded:self.currentLocation];
 }
 
 - (void)addOrRemoveLocation:(Location *)location
@@ -52,18 +67,20 @@
     {
         [self.savedLocations addObject:location];
     }
-//    else if ([self.savedLocations containsObject:location])
-//    {
-//        [self.savedLocations removeObject:location];
-//    }
+    
     else
     {
         NSMutableArray *trimmedLocations = [NSMutableArray array];
         
         for (Location *savedLocation in self.savedLocations)
         {
-            if (![savedLocation.state isEqualToString:location.state] &&
-                ![savedLocation.city isEqualToString:location.state])
+            if (
+                ![location isEqual:savedLocation]
+                || (
+                    ![location.state isEqualToString:savedLocation.state]
+                    && ![location.city isEqualToString:savedLocation.city]
+                    )
+                )
             {
                 [trimmedLocations addObject:location];
             }
@@ -71,8 +88,95 @@
         
         self.savedLocations = trimmedLocations;
     }
+//    else if ([self.savedLocations containsObject:location])
+//    {
+//        [self.savedLocations removeObject:location];
+//    }
+//    else
+//    {
+//        
+//        
+//        NSMutableArray *trimmedLocations = [NSMutableArray array];
+//        
+//        for (Location *savedLocation in self.savedLocations)
+//        {
+//            if (![savedLocation.state isEqualToString:location.state] &&
+//                ![savedLocation.city isEqualToString:location.state])
+//            {
+//                [trimmedLocations addObject:location];
+//            }
+//        }
+//        
+//        self.savedLocations = trimmedLocations;
+//    }
     
-    NSLog(@"%@", self.savedLocations);
+    [self saveLocations:self.currentLocation];
+    
+    NSLog(@"\n%@", self.savedLocations);
+}
+
+- (NSMutableArray *)savedLocations
+{
+    if (!_savedLocations)
+    {
+        _savedLocations = [NSMutableArray array];
+    }
+    
+    return _savedLocations;
+}
+
+- (NSMutableArray *)trimDuplicateLocations
+{
+    NSMutableArray *trimmedLocations = [NSMutableArray array];
+    
+    NSMutableSet *citiesBuffer = [NSMutableSet set];
+    NSMutableSet *statesBuffer = [NSMutableSet set];
+//    
+//    
+//    
+//    NSString *cityBuffer = [NSString string];
+//    NSString *stateBuffer = [NSString string];
+    
+    
+    for (Location *location in self.savedLocations)
+    {
+        if (
+            ![citiesBuffer containsObject:location.city]
+            && ![statesBuffer containsObject:location.state]
+            ) {
+            
+            [citiesBuffer addObject:location.city];
+            [statesBuffer addObject:location.state];
+            
+            [trimmedLocations addObject:location];
+        }
+    }
+//    
+//    
+//    for (Location *savedLocation in self.savedLocations)
+//    {
+//        
+//        
+//        
+//        if (![savedLocation.state isEqualToString:stateBuffer] &&
+//            ![savedLocation.city isEqualToString:cityBuffer])
+//        {
+//            NSLog(@"%@", savedLocation);
+//            
+//            NSLog(@"\n sv lc city: %@ \n sv lc state: %@", savedLocation.city, savedLocation.state);
+//            
+//            
+//            [trimmedLocations addObject:savedLocation];
+//            
+//            cityBuffer = savedLocation.city;
+//            stateBuffer = savedLocation.state;
+//            
+//            NSLog(@"\n bf lc city: %@ \n bf lc state: %@", cityBuffer, stateBuffer);
+//        }
+//    }
+    
+    NSLog(@"\ntrimmed locations: %@", trimmedLocations);
+    return trimmedLocations;
 }
 
 @end

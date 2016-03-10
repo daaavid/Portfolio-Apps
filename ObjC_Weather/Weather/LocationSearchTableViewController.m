@@ -14,8 +14,6 @@
     ListMode listMode;
 }
 
-@property (nonatomic) Location *currentLocation;
-
 @end
 
 @implementation LocationSearchTableViewController
@@ -25,7 +23,7 @@
     [super viewDidLoad];
     
     self.searchResults = [[NSMutableArray alloc] init];
-    listMode = Search;
+    listMode = Saved;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,22 +52,32 @@
     {
         cell.detailTextLabel.text = @"";
         
+        Location *location = self.searchResults[indexPath.row];
+        
         if (listMode == Search)
         {
-            NSString *result = self.searchResults[indexPath.row];
-            cell.textLabel.text = result;
+            NSString *locationStr = [NSString stringWithFormat:@"%@,%@", location.city, location.state];
+            if (location.country)
+            {
+                locationStr = [NSString stringWithFormat:@"%@,%@,%@", location.city, location.state, location.country];
+            }
+            
+            cell.textLabel.text = locationStr;
         }
         else if (listMode == Saved)
         {
-            Location *location = self.searchResults[indexPath.row];
             NSString *locationStr = [NSString stringWithFormat:@"%@,%@", location.city, location.state];
-            
             cell.textLabel.text = locationStr;
-            
-            if ([location isEqual:self.currentLocation])
-            {
-                cell.detailTextLabel.text = @"Current";
-            }
+        }
+        
+        
+        
+        if (
+            [location.city isEqualToString:self.currentLocation.city]
+            && [location.state isEqualToString:self.currentLocation.state]
+            )
+        {
+            cell.detailTextLabel.text = @"Current";
         }
         
         cell.textLabel.textColor = [ViewManager setColorBasedOnTimeOfDay];
@@ -98,9 +106,11 @@
 
 - (void)showResults:(NSArray *)results
 {
-    NSLog(@"showResults");
+//    NSLog(@"showResults");
     [self.searchResults addObjectsFromArray:results];
     [self.tableView reloadData];
+    
+    [self.settingsViewController setContainerViewHeight:results];
 }
 
 - (void)removeResults
@@ -109,7 +119,7 @@
     [self.tableView reloadData];
 }
 
-- (void)listModeChanged:(NSInteger)selectedSegmentIndex currentLocation:(Location *)currentLocation
+- (void)listModeChanged:(NSInteger)selectedSegmentIndex
 {
     [self.searchResults removeAllObjects];
     
@@ -117,8 +127,7 @@
     {
         listMode = Saved;
         
-        self.currentLocation = currentLocation;
-        [self.searchResults addObject:currentLocation];
+//        [self.searchResults addObject:currentLocation];
     }
     else
     {

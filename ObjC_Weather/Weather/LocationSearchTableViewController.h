@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "APIController.h"
+#import "SettingsViewController.h"
 
 typedef enum {
     Saved,
@@ -22,8 +23,10 @@ typedef enum {
 
 @property (nonatomic, strong) NSMutableArray *searchResults;
 @property (nonatomic) id <LocationStringWasChosenProtocol> delegate;
+@property (nonatomic) SettingsViewController *settingsViewController;
+@property (nonatomic) Location *currentLocation;
 
-- (void)listModeChanged:(NSInteger)selectedSegmentIndex currentLocation:(Location *)currentLocation;
+- (void)listModeChanged:(NSInteger)selectedSegmentIndex;
 - (void)showResults:(NSArray *)results;
 - (void)removeResults;
 

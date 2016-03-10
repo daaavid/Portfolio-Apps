@@ -34,9 +34,9 @@
     MainViewController *mainVC = (MainViewController *)self.window.rootViewController;
     if (mainVC)
     {
-        NSLog(@"%@", self.window.rootViewController);
+//        NSLog(@"%@", self.window.rootViewController);
         
-        [mainVC.savedDataManager saveLocations];
+        [mainVC.savedDataManager saveLocations:mainVC.location];
     }
 }
 
@@ -50,7 +50,7 @@
     MainViewController *mainVC = (MainViewController *)self.window.rootViewController;
     if (mainVC)
     {
-        NSLog(@"%@", self.window.rootViewController);
+//        NSLog(@"%@", self.window.rootViewController);
         
         [mainVC.savedDataManager loadLocations];
     }
