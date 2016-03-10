@@ -17,6 +17,6 @@
 @property (nonatomic) NSString *state;
 @property (nonatomic) Weather *weather;
 
-- (Location *)locationFromJSON:(NSArray *)results;
++ (Location *)locationFromJSON:(NSArray *)results;
 
 @end

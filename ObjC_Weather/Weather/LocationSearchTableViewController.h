@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "APIController.h"
 
+@protocol LocationStringWasChosenProtocol
+- (void)locationStringWasChosen:(NSString *)location;
+@end
+
 @interface LocationSearchTableViewController : UITableViewController
-<GooglePlacesAPIProtocol>
+
+@property (nonatomic, strong) NSMutableArray *searchResults;
+@property (nonatomic) id <LocationStringWasChosenProtocol> delegate;
+
+- (void)showResults:(NSArray *)results;
+- (void)removeResults;
 
 @end

@@ -18,5 +18,6 @@
 + (void)addActivitySpinner:(UIView *)view toFrame:(CGRect)frame;
 + (void)flipViews:(NSArray *)views random:(BOOL)random;
 + (void)setBackgroundGradientToView:(UIView *)view;
++ (UIColor *)setColorBasedOnTimeOfDay;
 
 @end

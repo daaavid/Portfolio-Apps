@@ -97,9 +97,27 @@
               heightScale:(CGFloat)heightScale
               duration:(CGFloat)duration
 {
+    [self animateTransform:view width:widthScale height:heightScale duration:duration scale:YES];
+}
+
+- (void)animateTransform:(UIView *)view width:(CGFloat)width height:(CGFloat)height duration:(CGFloat)duration
+{
+    [self animateTransform:view width:width height:height duration:duration scale:NO];
+}
+
+- (void)animateTransform:(UIView *)view width:(CGFloat)width height:(CGFloat)height duration:(CGFloat)duration scale:(BOOL)scale
+{
     [UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:1 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    
+        if (scale)
+        {
+            view.transform = CGAffineTransformMakeScale(width, height);
+        }
+        else
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, width, height)];
+        }
         
-        view.transform = CGAffineTransformMakeScale(widthScale, heightScale);
         
     } completion:^(BOOL finished) {\
         [self.delegate animationDidComplete:view identifier: Transform];

@@ -7,7 +7,12 @@
 //
 
 #import "APIController.h"
+#import "Location.h"
 @import UIKit;
+
+/*
+ honestly would probably be better to make discrete API controllers for each task, but I wanted to cut out any duplicate code (probably at the cost of simplicity)
+*/
 
 @implementation APIController
 {
@@ -33,36 +38,46 @@
     return self;
 }
 
+- (instancetype)initWithGoogleMapsDelegate:(id <GoogleMapsAPIProtocol>)delegate;
+{
+    if (self = [super init])
+    {
+        _googleMapsDelegate = delegate;
+    }
+    return self;
+}
+
 - (void)searchGooglePlacesFor:(NSString *)searchTerm
 {
     searchTerm = [searchTerm stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     
-    NSString *baseURLString = @"https://maps.googleapis.com/maps/api/place/autocomplete/";
+    NSString *baseURLString = @"https://maps.googleapis.com/maps/api/place/autocomplete";
     NSString *apiKey = @"AIzaSyDTPgYOHM31jzVcZFV-wdg2RmdleSkAF-4";
     NSString *types = @"(cities)";
     
-    NSString *fullURLString = [NSString stringWithFormat:@"%@json?input=%@&types=%@&key=%@",
+    NSString *fullURLString = [NSString stringWithFormat:@"%@/json?input=%@&types=%@&key=%@",
                                baseURLString,
                                searchTerm,
                                types,
                                apiKey];
     
+    NSLog(@"%@", fullURLString);
+    
     [self beginTaskWithURLString:fullURLString andTaskDescription:@"GooglePlaces"];
     
 }
 
-//- (void)searchGooglePlacesFor:(NSString *)searchTerm
-//{
-//    searchTerm = [searchTerm stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-//    
-//    NSString *baseURLString = @"https://maps.googleapis.com/maps/api/place/autocomplete";
-//    NSString *apiKey = @"AIzaSyDTPgYOHM31jzVcZFV-wdg2RmdleSkAF-4";
-//    NSString *argURLString = [NSString stringWithFormat:@"/json?input=%@&types=(cities)&key=%@", searchTerm, apiKey];
-//    
-//    NSString *fullURLString = [NSString stringWithFormat:@"%@%@", baseURLString, argURLString];
-//    
-//    [self beginTaskWithURLString:fullURLString andTaskDescription:@"GooglePlaces"];
-//}
+- (void)searchGoogleMapsFor:(NSString *)searchTerm
+{
+    searchTerm = [searchTerm stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    
+    NSString *baseURLString = @"https://maps.googleapis.com/maps/api/geocode";
+    NSString *fullURLString = [NSString stringWithFormat:@"%@/json?address=%@&components=postal_code:&sensor=false",
+                               baseURLString,
+                               searchTerm];
+    
+    [self beginTaskWithURLString:fullURLString andTaskDescription:@"GoogleMaps"];
+}
 
 - (void)searchForWeather:(Location *)location
 {
@@ -87,7 +102,10 @@
         
         NSURLSessionDataTask *task = [session dataTaskWithURL:url];
         
+        //set task description here
         [task setTaskDescription:description];
+        
+        //start task
         [task resume];
         
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
@@ -145,9 +163,34 @@
             {
                 [self.googlePlacesDelegate googlePlacesSearchDidComplete:predictions];
             }
-            
+        }
+        else if ([identifier isEqualToString:@"GoogleMaps"])
+        {
+            NSArray *resultsArray = (NSArray *)results[@"results"];
+            if ([resultsArray firstObject])
+            {
+                Location *location = [self parseGoogleMapsResults:resultsArray];
+                
+                if (location)
+                {
+                    [self.googleMapsDelegate googleMapsSearchDidComplete:location];
+                }
+            }
         }
     }
+}
+
+- (Location *)parseGoogleMapsResults:(NSArray *)results
+{
+    if ([results firstObject])
+    {
+        Location *location = [Location locationFromJSON:results];
+        
+        NSLog(@"%@", location);
+        
+        return location;
+    }
+    return nil;
 }
 
 @end

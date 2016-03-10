@@ -35,5 +35,6 @@ typedef enum {
               widthScale:(CGFloat)widthScale
              heightScale:(CGFloat)heightScale
                 duration:(CGFloat)duration;
+- (void)animateTransform:(UIView *)view width:(CGFloat)width height:(CGFloat)height duration:(CGFloat)duration;
 
 @end

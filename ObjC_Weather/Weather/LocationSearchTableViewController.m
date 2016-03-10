@@ -7,24 +7,19 @@
 //
 
 #import "LocationSearchTableViewController.h"
+#import "ViewManager.h"
 
 @interface LocationSearchTableViewController ()
-{
-    NSMutableArray *searchResults;
-}
 
 @end
 
 @implementation LocationSearchTableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.searchResults = [[NSMutableArray alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -32,45 +27,55 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)googlePlacesSearchDidComplete:(NSArray *)results
-{
-    [searchResults removeAllObjects];
-    
-    if ([results firstObject])
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            for (NSDictionary *prediction in results)
-            {
-                NSString *description = (NSString *)prediction[@"description"];
-                [searchResults addObject:description];
-            }
-            [self.tableView reloadData];
-        });
-    }
-}
 
 #pragma mark - Table view data source
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Incomplete implementation, return the number of sections
-//    return 0;
-//}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [searchResults count];
+    return [self.searchResults count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell" forIndexPath:indexPath];
     
-    if ([searchResults count] > 0)
+    if ([self.searchResults count] > 0)
     {
-        NSString *result = searchResults[indexPath.row];
-        [cell.textLabel setText:result];
+        NSString *result = self.searchResults[indexPath.row];
+        NSLog(@"%@", result);
+        
+        cell.textLabel.textColor = [ViewManager setColorBasedOnTimeOfDay];
+        cell.textLabel.text = result;
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSString *selectedResult = self.searchResults[indexPath.row];
+    
+    [self.delegate locationStringWasChosen:selectedResult];
+}
+
+- (void)showResults:(NSArray *)results
+{
+    NSLog(@"showResults");
+    [self.searchResults addObjectsFromArray:results];
+    [self.tableView reloadData];
+}
+
+- (void)removeResults
+{
+    [self.searchResults removeAllObjects];
+    [self.tableView reloadData];
 }
 
 

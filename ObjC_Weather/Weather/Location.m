@@ -25,7 +25,7 @@
     return self;
 }
 
-- (Location *)locationFromJSON:(NSArray *)results;
++ (Location *)locationFromJSON:(NSArray *)results;
 {
     NSString *lat   = [[NSString alloc] init];
     NSString *lng   = [[NSString alloc] init];
@@ -42,11 +42,12 @@
             NSString *formattedAddress = (NSString *)[result objectForKey:@"formatted_address"];
             if (formattedAddress)
             {
-                NSArray *addressComponentsForCity =
+                NSArray *addressComponents =
                 [formattedAddress componentsSeparatedByString:@" "];
                 
-                city = addressComponentsForCity[0];
-                state = [addressComponentsForCity[1] componentsSeparatedByString:@" "][1];
+                city = addressComponents[0];
+//                state = [addressComponentsForCity[1] componentsSeparatedByString:@" "][1];
+                state = addressComponents[1];
             }
             
             NSDictionary *geometry = (NSDictionary *)[result objectForKey:@"geometry"];

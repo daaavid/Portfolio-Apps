@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "APIController.h"
 
-@interface SettingsViewController : UIViewController <UISearchBarDelegate>
+@protocol LocationWasChosenProtocol
+- (void)locationWasChosen:(Location *)location;
+@end
+
+@interface SettingsViewController : UIViewController <UISearchBarDelegate, GooglePlacesAPIProtocol>
+
+@property (nonatomic) id <LocationWasChosenProtocol> delegate;
 
 @end

@@ -22,16 +22,22 @@ typedef enum {
 - (void)googlePlacesSearchDidComplete:(NSArray *)results;
 @end
 
+@protocol GoogleMapsAPIProtocol <NSObject>
+- (void)googleMapsSearchDidComplete:(Location *)location;
+@end
+
 @interface APIController : NSObject <NSURLSessionDelegate>
 
 @property (nonatomic) id <DarkSkyAPIProtocol> darkSkyDelegate;
 @property (nonatomic) id <GooglePlacesAPIProtocol> googlePlacesDelegate;
+@property (nonatomic) id <GoogleMapsAPIProtocol> googleMapsDelegate;
 
 - (instancetype)initWithDarkSkyDelegate:(id <DarkSkyAPIProtocol>)delegate;
 - (instancetype)initWithGooglePlacesDelegate:(id <GooglePlacesAPIProtocol>)delegate;
-
+- (instancetype)initWithGoogleMapsDelegate:(id <GoogleMapsAPIProtocol>)delegate;
 
 - (void)searchGooglePlacesFor:(NSString *)searchTerm;
 - (void)searchForWeather:(Location *)location;
+- (void)searchGoogleMapsFor:(NSString *)searchTerm;
 
 @end

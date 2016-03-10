@@ -18,6 +18,8 @@
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = view.bounds;
     gradient.colors = colors;
+    
+    
     [view.layer insertSublayer:gradient atIndex:0];
 }
 
@@ -110,6 +112,18 @@
     }
     
     [self setViewGradient:view colors:colors];
+}
+
++ (UIColor *)setColorBasedOnTimeOfDay
+{
+    if ([TimeOfDay DayOrNight] == Day)
+    {
+        return [UIColor colorWithRed:0.17 green:0.45 blue:0.64 alpha:1];
+    }
+    else
+    {
+        return [UIColor colorWithRed:0.2 green:0.13 blue:0.51 alpha:1];
+    }
 }
 
 @end

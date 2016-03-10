@@ -19,10 +19,11 @@
 */
 
 #import "MainViewController.h"
+#import "SettingsViewController.h"
 @import QuartzCore;
 
 @interface MainViewController ()
-<UIPopoverPresentationControllerDelegate, AnimationDidCompleteProtocol, DarkSkyAPIProtocol>
+<UIPopoverPresentationControllerDelegate, AnimationDidCompleteProtocol, DarkSkyAPIProtocol, LocationWasChosenProtocol>
 {
     AnimationManager *animator;
     NSArray *overlayViews;
@@ -30,7 +31,8 @@
     
     Weather *weather;
     
-    
+    CGRect originalWeatherFrame;
+    BOOL transformed;
 }
 
 #pragma mark - views
@@ -72,14 +74,22 @@
     
     NSLog(@"viewDidLoad");
     
+
     
+    if (!transformed)
+    {
+        originalWeatherFrame = self.mainInfoView.frame;
+        [self performInitialSetup];
+    }
     
-    [self performInitialSetup];
+    transformed = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    self.mainInfoView.frame = originalWeatherFrame;
     
     [self performViewSetup];
 }
@@ -88,8 +98,10 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"ShowLocationPopover"])
+    if ([segue.identifier isEqualToString:@"ShowSettingsSegue"])
     {
+        SettingsViewController *settingsViewController = (SettingsViewController *)[segue destinationViewController];
+        settingsViewController.delegate = self;
 //        HistoryTableViewController *historyVC = segue.destinationViewController;
 //        UIPopoverPresentationController *popover = historyVC.popoverPresentationController;
 //        popover.delegate = self;
@@ -148,6 +160,8 @@
     
     [self.containerView setAlpha:0];
     [self.containerBGView setAlpha:0];
+    
+    [self.view setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)performViewSetup
@@ -155,7 +169,6 @@
     NSLog(@"performViewSetup");
     
     [self.containerView setAlpha:0];
-    [self.view setBackgroundColor:[UIColor clearColor]];
     
     for (UIView *overlayView in overlayViews)
     {
@@ -190,13 +203,16 @@
     [animator slideToOrigin:left fromPoint:left.frame.origin.x - 60 identifier:SlideHorizontally];
     [animator slideToOrigin:right fromPoint:right.frame.origin.x + 60 identifier:SlideHorizontally];
     
+    NSLog(@"%f", left.frame.origin.x);
+    
     [self setInitialBGViewProperties];
     
-    
+    //
     
     Location *location = [[Location alloc] init];
     location.lat = @"28.5409840";
     location.lng = @"-81.3777390";
+    _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
     [self.apiController searchForWeather:location];
 }
 
@@ -237,16 +253,6 @@
     }
 }
 
-#pragma mark - Lazy instantiations
-
-- (APIController *)apiController
-{
-    if (!_apiController)
-    {
-        _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
-    }
-    return _apiController;
-}
 
 #pragma mark - Animation Completion Delegate
 
@@ -260,7 +266,7 @@
     {
         //initial drop animation upon view load
         
-        [animator animateCornerRadius:view from:view.layer.cornerRadius to:4 duration:0.25];
+        [animator animateCornerRadius:view from:view.layer.cornerRadius to:4 duration:0.25];   
         [animator animateTransform:view widthScale:1.45 heightScale:1 duration:0.25];
     }
     else if (view == self.containerBGView && identifier == Transform)
@@ -280,14 +286,12 @@
     [self setWeeklyForecastTableView];
 }
 
-- (void)googleLocationSearchDidComplete:(NSArray *)results
+- (void)locationWasChosen:(Location *)location
 {
+    [self dismissViewControllerAnimated:YES completion:nil];
     
-}
-
-- (void)googlePlacesSearchDidComplete:(NSArray *)results
-{
-    
+    _apiController = [[APIController alloc] initWithDarkSkyDelegate:self];
+    [self.apiController searchForWeather:location];
 }
 
 @end
