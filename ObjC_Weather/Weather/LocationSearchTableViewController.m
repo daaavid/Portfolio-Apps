@@ -68,6 +68,7 @@ DarkSkyBatchAPIProtocol
         
         cell.weekdayLabel.text = @"";
         cell.temperatureLabel.text = @"";
+        cell.weatherImageView.image = nil;
         
         Location *location = self.searchResults[indexPath.row];
         NSString *locationStr;

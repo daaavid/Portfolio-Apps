@@ -102,7 +102,7 @@
         NSString *state = components[1];
         NSString *country;
         
-        if (components[2])
+        if ([components count] > 2)
         {
             country = components[2];
         }
@@ -123,7 +123,8 @@
         _lng = [aDecoder decodeObjectForKey:@"lng"];
         _city = [aDecoder decodeObjectForKey:@"city"];
         _state = [aDecoder decodeObjectForKey:@"state"];
-        _favorite = [aDecoder decodeObjectForKey:@"favorite"];
+//        _favorite = [aDecoder decodeObjectForKey:@"favorite"];
+        _favorite = [aDecoder decodeBoolForKey:@"favorite"];
     }
     return self;
 }

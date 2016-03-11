@@ -24,7 +24,6 @@
 		635054961C57F341006263B0 /* YLMoment+Manipulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6350548B1C57F341006263B0 /* YLMoment+Manipulation.m */; };
 		635054971C57F341006263B0 /* YLMoment+RelativeTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6350548D1C57F341006263B0 /* YLMoment+RelativeTime.m */; };
 		635054981C57F341006263B0 /* YLMomentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 635054901C57F341006263B0 /* YLMomentObject.m */; };
-		6362289C1C57449A00C23FF8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6362289B1C57449A00C23FF8 /* Default-568h@2x.png */; };
 		6362822C1C520D16009C12B1 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 6362822B1C520D16009C12B1 /* Location.m */; };
 		636282311C5214F5009C12B1 /* Weather.m in Sources */ = {isa = PBXBuildFile; fileRef = 636282301C5214F5009C12B1 /* Weather.m */; };
 		636282341C521C38009C12B1 /* ForecastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 636282331C521C38009C12B1 /* ForecastCell.m */; };
@@ -78,7 +77,6 @@
 		6350548E1C57F341006263B0 /* YLMoment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLMoment.h; sourceTree = "<group>"; };
 		6350548F1C57F341006263B0 /* YLMomentObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLMomentObject.h; sourceTree = "<group>"; };
 		635054901C57F341006263B0 /* YLMomentObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLMomentObject.m; sourceTree = "<group>"; };
-		6362289B1C57449A00C23FF8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6362822A1C520D16009C12B1 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		6362822B1C520D16009C12B1 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		6362822F1C5214F5009C12B1 /* Weather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Weather.h; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 		633379861C51ADA9001C5C9D = {
 			isa = PBXGroup;
 			children = (
-				6362289B1C57449A00C23FF8 /* Default-568h@2x.png */,
 				633379911C51ADA9001C5C9D /* Weather */,
 				633379901C51ADA9001C5C9D /* Products */,
 			);
@@ -316,7 +313,6 @@
 			files = (
 				633379A81C51ADA9001C5C9D /* LaunchScreen.storyboard in Resources */,
 				633379A51C51ADA9001C5C9D /* Assets.xcassets in Resources */,
-				6362289C1C57449A00C23FF8 /* Default-568h@2x.png in Resources */,
 				633379A31C51ADA9001C5C9D /* Main.storyboard in Resources */,
 				635054911C57F341006263B0 /* YLMomentRelativeTimeLocalizable.strings in Resources */,
 			);
@@ -480,8 +476,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/Weather/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Weather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SimpleWeather9k;
 				PRODUCT_NAME = Weather;
 			};
 			name = Debug;
@@ -491,8 +488,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/Weather/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Weather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SimpleWeather9k;
 				PRODUCT_NAME = Weather;
 			};
 			name = Release;

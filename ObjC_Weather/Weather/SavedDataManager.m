@@ -58,6 +58,8 @@
     
     self.savedLocations = [self trimDuplicateLocations];
     
+    NSLog(@"loaded");
+    
     [self.delegate locationsWereLoaded:self.currentLocation];
 }
 

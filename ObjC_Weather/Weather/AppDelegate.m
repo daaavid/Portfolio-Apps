@@ -36,6 +36,7 @@
     {
 //        NSLog(@"%@", self.window.rootViewController);
         
+        [mainVC dismissViewControllerAnimated:NO completion:nil];
         [mainVC.savedDataManager saveLocations:mainVC.location];
     }
 }

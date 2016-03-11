@@ -213,12 +213,7 @@ LoadedLocationProtocol
 //
 //    });
     
-    UIView *left = self.overlayViewLeft;
-    UIView *right = self.overlayViewRight;
-    [animator fadeView:left identifier:FadeIn];
-    [animator fadeView:right identifier:FadeIn];
-    [animator slideToOrigin:left fromPoint:left.frame.origin.x - 60 identifier:SlideHorizontally];
-    [animator slideToOrigin:right fromPoint:right.frame.origin.x + 60 identifier:SlideHorizontally];
+
     
 //    NSLog(@"%f", left.frame.origin.x);
     
@@ -335,6 +330,13 @@ LoadedLocationProtocol
         
         [animator animateCornerRadius:view from:view.layer.cornerRadius to:4 duration:0.25];   
         [animator animateTransform:view widthScale:1.45 heightScale:1 duration:0.25];
+        
+        UIView *left = self.overlayViewLeft;
+        UIView *right = self.overlayViewRight;
+        [animator fadeView:left identifier:FadeIn];
+        [animator fadeView:right identifier:FadeIn];
+        [animator slideToOrigin:left fromPoint:left.frame.origin.x - 60 identifier:SlideHorizontally];
+        [animator slideToOrigin:right fromPoint:right.frame.origin.x + 60 identifier:SlideHorizontally];
     }
     else if (view == self.containerBGView && identifier == Transform)
     {

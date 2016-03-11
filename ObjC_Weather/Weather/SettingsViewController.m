@@ -53,7 +53,9 @@ LoadedLocationProtocol
     [self setSearchBarTextColor:[UIColor whiteColor]];
     
     self.segmentedControl.selectedSegmentIndex = 0;
-    [self showSavedLocations];
+    [self segmentedControlValueChanged:self.segmentedControl];
+    
+//    [self showSavedLocations];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -138,7 +140,7 @@ LoadedLocationProtocol
 }
 
 - (void)setContainerViewHeight:(NSArray *)results
-{
+{    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         double newHeight = [results count] * 44.0;
@@ -202,10 +204,12 @@ LoadedLocationProtocol
     
     if (sender.selectedSegmentIndex == 0)
     {
+        self.searchBar.placeholder = @"";
         [self showSavedLocations];
     }
     else
     {
+        self.searchBar.placeholder = @"Enter a city";
         [self startLocationSearch];
     }
 }
@@ -234,6 +238,7 @@ LoadedLocationProtocol
 - (void)locationsWereLoaded:(Location *)currentLocation
 {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [locationSearchTableViewController removeResults];
         [locationSearchTableViewController showResults:self.savedDataManager.savedLocations];
         
         NSLog(@"saved locations count: %lu", (unsigned long)[self.savedDataManager.savedLocations count]);
@@ -263,6 +268,10 @@ LoadedLocationProtocol
 {
     UITextField *searchField = (UITextField *)[self.searchBar valueForKey:@"_searchField"];
     [searchField setTextColor:color];
+
+//    self.searchBar.tintColor = [UIColor whiteColor];
+    
+    self.searchBar.tintColor = color;
 }
 
 /*
