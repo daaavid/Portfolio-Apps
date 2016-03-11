@@ -83,12 +83,12 @@ LoadedLocationProtocol
     
 //    NSLog(@"viewDidLoad");
     
-    if (!transformed)
-    {
-        originalWeatherFrame = self.mainInfoView.frame;
-        [self performInitialSetup];
-        transformed = YES;
-    }
+//    if (!transformed)
+//    {
+//        originalWeatherFrame = self.mainInfoView.frame;
+//        [self performInitialSetup];
+//        transformed = YES;
+//    }
     
     [self managedSavedData];
 }
@@ -97,7 +97,7 @@ LoadedLocationProtocol
 {
     [super viewWillAppear:animated];
     
-    [self performViewSetup];
+//    [self performViewSetup];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -323,6 +323,13 @@ LoadedLocationProtocol
     if (view == self.mainInfoView && identifier == SlideVertically)
     {
         [animator slideToOrigin:self.containerBGView fromPoint:self.containerBGView.frame.origin.y - 120 identifier:SlideVertically];
+        
+        UIView *left = self.overlayViewLeft;
+        UIView *right = self.overlayViewRight;
+        [animator fadeView:left identifier:FadeIn];
+        [animator fadeView:right identifier:FadeIn];
+        [animator slideToOrigin:left fromPoint:left.frame.origin.x - 60 identifier:SlideHorizontally];
+        [animator slideToOrigin:right fromPoint:right.frame.origin.x + 60 identifier:SlideHorizontally];
     }
     else if (view == self.containerBGView && identifier == SlideVertically)
     {
@@ -331,12 +338,7 @@ LoadedLocationProtocol
         [animator animateCornerRadius:view from:view.layer.cornerRadius to:4 duration:0.25];   
         [animator animateTransform:view widthScale:1.45 heightScale:1 duration:0.25];
         
-        UIView *left = self.overlayViewLeft;
-        UIView *right = self.overlayViewRight;
-        [animator fadeView:left identifier:FadeIn];
-        [animator fadeView:right identifier:FadeIn];
-        [animator slideToOrigin:left fromPoint:left.frame.origin.x - 60 identifier:SlideHorizontally];
-        [animator slideToOrigin:right fromPoint:right.frame.origin.x + 60 identifier:SlideHorizontally];
+
     }
     else if (view == self.containerBGView && identifier == Transform)
     {
@@ -351,6 +353,9 @@ LoadedLocationProtocol
 - (void)darkSkySearchDidComplete:(NSDictionary *)results location:(Location *)location
 {
     self.location.weather = [[Weather alloc] initWithResults:results];
+    
+    [self performViewSetup];
+    
     [self setMainInfoViewWeatherLabels];
     [self setWeeklyForecastTableView];
     
@@ -384,6 +389,7 @@ LoadedLocationProtocol
     [self.apiController searchForWeather:self.location];
     
     [self refreshFavorites];
+    [self performInitialSetup];
 }
 
 @end

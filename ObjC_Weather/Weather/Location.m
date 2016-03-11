@@ -99,8 +99,13 @@
         NSArray *components = [description componentsSeparatedByString:@","];
         
         NSString *city = components[0];
-        NSString *state = components[1];
+        NSString *state;
         NSString *country;
+        
+        if ([components count] > 1)
+        {
+            state = components[1];
+        }
         
         if ([components count] > 2)
         {

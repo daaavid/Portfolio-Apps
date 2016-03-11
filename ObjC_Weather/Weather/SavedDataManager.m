@@ -71,23 +71,35 @@
     }
     else
     {
-        NSMutableArray *trimmedLocations = [NSMutableArray array];
         
+        NSMutableArray *trimmedLocations = [[NSMutableArray alloc] initWithArray:self.savedLocations];
         for (Location *savedLocation in self.savedLocations)
         {
-            if (
-                ![location isEqual:savedLocation]
-                || (
-                    ![location.state isEqualToString:savedLocation.state]
-                    && ![location.city isEqualToString:savedLocation.city]
-                    )
-                )
+            if (savedLocation.favorite == NO)
             {
-                [trimmedLocations addObject:location];
+                [trimmedLocations removeObject:savedLocation];
             }
         }
         
-        self.savedLocations = trimmedLocations;
+        [self.savedLocations removeAllObjects];
+        [self.savedLocations addObjectsFromArray:trimmedLocations];
+//        NSMutableArray *trimmedLocations = [NSMutableArray array];
+//        
+//        for (Location *savedLocation in self.savedLocations)
+//        {
+//            if (
+//                ![location isEqual:savedLocation]
+//                || (
+//                    ![location.state isEqualToString:savedLocation.state]
+//                    && ![location.city isEqualToString:savedLocation.city]
+//                    )
+//                )
+//            {
+//                [trimmedLocations addObject:location];
+//            }
+//        }
+//        
+//        self.savedLocations = trimmedLocations;
     }
 //    else if ([self.savedLocations containsObject:location])
 //    {

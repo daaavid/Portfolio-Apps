@@ -94,6 +94,7 @@ LoadedLocationProtocol
 {
     if (![self.searchBar.text isEqualToString:@""])
     {
+        [self.searchBar resignFirstResponder];
         [self.searchBar setUserInteractionEnabled:NO];
         
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];

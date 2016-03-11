@@ -13,14 +13,28 @@
 
 + (void)setViewGradient:(UIView *)view colors:(NSArray *)colors
 {
-    view.backgroundColor = [UIColor clearColor];
+//    view.backgroundColor = [UIColor clearColor];
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = view.bounds;
     gradient.colors = colors;
+    gradient.name = @"gradient";
     
+    [self removeLayerWithName:@"gradient" fromView:view];
     
     [view.layer insertSublayer:gradient atIndex:0];
+}
+
++ (void)removeLayerWithName:(NSString *)name fromView:(UIView *)view
+{
+    NSArray *sublayers = view.layer.sublayers;
+    for (CALayer *layer in sublayers) {
+        if ([layer.name isEqualToString:@"gradient"]) {
+            [layer removeFromSuperlayer];
+            NSLog(@"bg gradient removed");
+            break;
+        }
+    }
 }
 
 + (void)setViewCornerRadius:(UIView *)view cornerRadius:(CGFloat)cornerRadius
@@ -81,12 +95,12 @@
     
     if ([TimeOfDay DayOrNight] == Day)
     {
-        //a day sky
-        //        colors = @[
-        //           (id)[[UIColor colorWithRed:0 green:0.02 blue:0.15 alpha:1] CGColor],
-        //           (id)[[UIColor colorWithRed:0.01 green:0.49 blue:0.7 alpha:1] CGColor],
-        //           (id)[[UIColor colorWithRed:0 green:0.64 blue:0.6 alpha:1] CGColor]
-        //           ];
+//        a day sky
+//        colors = @[
+//           (id)[[UIColor colorWithRed:0 green:0.02 blue:0.15 alpha:1] CGColor],
+//           (id)[[UIColor colorWithRed:0.01 green:0.49 blue:0.7 alpha:1] CGColor],
+//           (id)[[UIColor colorWithRed:0 green:0.64 blue:0.6 alpha:1] CGColor]
+//           ];
         
         colors = @[
                    (id)[[UIColor colorWithRed:0.22 green:0.67 blue:0.69 alpha:1] CGColor],
@@ -96,12 +110,12 @@
     }
     else
     {
-        //a night sky
-        //        colors = @[
-        //          (id)[[UIColor colorWithRed:0 green:0.04 blue:0.08 alpha:1] CGColor],
-        //          (id)[[UIColor colorWithRed:0 green:0.1 blue:0.2 alpha:1] CGColor],
-        //          (id)[[UIColor colorWithRed:0 green:0.17 blue:0.33 alpha:1] CGColor]
-        //          ];
+//        a night sky
+//        colors = @[
+//          (id)[[UIColor colorWithRed:0 green:0.04 blue:0.08 alpha:1] CGColor],
+//          (id)[[UIColor colorWithRed:0 green:0.1 blue:0.2 alpha:1] CGColor],
+//          (id)[[UIColor colorWithRed:0 green:0.17 blue:0.33 alpha:1] CGColor]
+//          ];
         
         colors = @[
                    (id)[[UIColor colorWithRed:0.45 green:0.13 blue:0.54 alpha:1] CGColor],
