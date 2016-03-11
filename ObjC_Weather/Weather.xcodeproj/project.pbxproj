@@ -16,6 +16,7 @@
 		633379CB1C51B03B001C5C9D /* WeatherTableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633379CA1C51B03B001C5C9D /* WeatherTableTableViewController.m */; };
 		633379CE1C51CB1D001C5C9D /* APIController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633379CD1C51CB1D001C5C9D /* APIController.m */; };
 		6334E5261C914E130068C304 /* SavedDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334E5251C914E130068C304 /* SavedDataManager.m */; };
+		6337D42F1C929BC7000E9F6F /* WeatherDetailPopoverTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6337D42E1C929BC7000E9F6F /* WeatherDetailPopoverTableViewController.m */; };
 		635054911C57F341006263B0 /* YLMomentRelativeTimeLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 635054771C57F341006263B0 /* YLMomentRelativeTimeLocalizable.strings */; };
 		635054921C57F341006263B0 /* YLMoment+Bundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 635054831C57F341006263B0 /* YLMoment+Bundle.m */; };
 		635054931C57F341006263B0 /* YLMoment+Components.m in Sources */ = {isa = PBXBuildFile; fileRef = 635054851C57F341006263B0 /* YLMoment+Components.m */; };
@@ -52,6 +53,8 @@
 		633379CD1C51CB1D001C5C9D /* APIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIController.m; sourceTree = "<group>"; };
 		6334E5241C914E130068C304 /* SavedDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavedDataManager.h; sourceTree = "<group>"; };
 		6334E5251C914E130068C304 /* SavedDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavedDataManager.m; sourceTree = "<group>"; };
+		6337D42D1C929BC7000E9F6F /* WeatherDetailPopoverTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherDetailPopoverTableViewController.h; sourceTree = "<group>"; };
+		6337D42E1C929BC7000E9F6F /* WeatherDetailPopoverTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherDetailPopoverTableViewController.m; sourceTree = "<group>"; };
 		635054781C57F341006263B0 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
 		635054791C57F341006263B0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
 		6350547A1C57F341006263B0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/YLMomentRelativeTimeLocalizable.strings; sourceTree = "<group>"; };
@@ -173,6 +176,17 @@
 			name = managers;
 			sourceTree = "<group>";
 		};
+		6337D4301C92A27E000E9F6F /* SettingsVC */ = {
+			isa = PBXGroup;
+			children = (
+				637B822E1C6C00C000A3CA31 /* SettingsViewController.h */,
+				637B822F1C6C00C000A3CA31 /* SettingsViewController.m */,
+				63AAF7DE1C7696AA0025077C /* LocationSearchTableViewController.h */,
+				63AAF7DF1C7696AA0025077C /* LocationSearchTableViewController.m */,
+			);
+			name = SettingsVC;
+			sourceTree = "<group>";
+		};
 		635054751C57F341006263B0 /* YLMoment */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,10 +221,12 @@
 		6362289A1C57448700C23FF8 /* WeatherTableVC */ = {
 			isa = PBXGroup;
 			children = (
-				633379C91C51B03B001C5C9D /* WeatherTableTableViewController.h */,
-				633379CA1C51B03B001C5C9D /* WeatherTableTableViewController.m */,
 				636282321C521C38009C12B1 /* ForecastCell.h */,
 				636282331C521C38009C12B1 /* ForecastCell.m */,
+				633379C91C51B03B001C5C9D /* WeatherTableTableViewController.h */,
+				633379CA1C51B03B001C5C9D /* WeatherTableTableViewController.m */,
+				6337D42D1C929BC7000E9F6F /* WeatherDetailPopoverTableViewController.h */,
+				6337D42E1C929BC7000E9F6F /* WeatherDetailPopoverTableViewController.m */,
 			);
 			name = WeatherTableVC;
 			sourceTree = "<group>";
@@ -236,10 +252,7 @@
 				633379C61C51B01B001C5C9D /* MainViewController.h */,
 				633379C71C51B01B001C5C9D /* MainViewController.m */,
 				6362289A1C57448700C23FF8 /* WeatherTableVC */,
-				637B822E1C6C00C000A3CA31 /* SettingsViewController.h */,
-				637B822F1C6C00C000A3CA31 /* SettingsViewController.m */,
-				63AAF7DE1C7696AA0025077C /* LocationSearchTableViewController.h */,
-				63AAF7DF1C7696AA0025077C /* LocationSearchTableViewController.m */,
+				6337D4301C92A27E000E9F6F /* SettingsVC */,
 			);
 			name = "view controllers";
 			sourceTree = "<group>";
@@ -343,6 +356,7 @@
 				63E8945E1C55EEE200859C55 /* ViewManager.m in Sources */,
 				633379C81C51B01B001C5C9D /* MainViewController.m in Sources */,
 				63E894611C56010E00859C55 /* TimeOfDay.m in Sources */,
+				6337D42F1C929BC7000E9F6F /* WeatherDetailPopoverTableViewController.m in Sources */,
 				6362822C1C520D16009C12B1 /* Location.m in Sources */,
 				633379941C51ADA9001C5C9D /* main.m in Sources */,
 				635054981C57F341006263B0 /* YLMomentObject.m in Sources */,

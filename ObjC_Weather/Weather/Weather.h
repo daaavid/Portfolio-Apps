@@ -32,5 +32,7 @@
 @property (nonatomic) NSArray *hourlyForecast;
 
 - (Weather *)initWithResults:(NSDictionary *)results;
++ (NSString *)getPrecipIntensityString:(Weather *)weather;
++ (NSString *)getPercentString:(NSNumber *)number;
 
 @end

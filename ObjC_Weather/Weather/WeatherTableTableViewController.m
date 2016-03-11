@@ -10,6 +10,7 @@
 #import "TimeOfDay.h"
 #import "AnimationManager.h"
 #import "Settings.h"
+#import "WeatherDetailPopoverTableViewController.h"
 
 typedef enum {
     Hourly,
@@ -17,10 +18,15 @@ typedef enum {
 }ForecastIdentifier;
 
 @interface WeatherTableTableViewController ()
+<
+UIPopoverPresentationControllerDelegate,
+UIAdaptivePresentationControllerDelegate
+>
 {
     NSArray *weekdays;
     ForecastIdentifier forecastIdentifier;
     AnimationManager *animator;
+    NSIndexPath *popoverIndexPath;
 }
 
 @property (nonatomic, strong) NSArray *hours;
@@ -122,19 +128,70 @@ typedef enum {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    if (forecastIdentifier == Daily)
+//    {
+//        [self presentWeatherDetailPopover:indexPath];
+//    }
+//    else
+//    {
+//        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    }
+    [self presentWeatherDetailPopover:indexPath];
 }
 
-- (UIColor *)setColor
+- (void)presentWeatherDetailPopover:(NSIndexPath *)indexPath
 {
-    if ([TimeOfDay DayOrNight] == Day)
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    WeatherDetailPopoverTableViewController *controller = (WeatherDetailPopoverTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"WeatherDetailPopoverTableViewController"];
+    
+    Weather *weather;
+    
+    if (forecastIdentifier == Daily)
     {
-        return [UIColor colorWithRed:0.17 green:0.45 blue:0.64 alpha:1];
+        weather = self.weather.dailyForecast[indexPath.row];
     }
-    else
+    else if (forecastIdentifier == Hourly)
     {
-        return [UIColor colorWithRed:0.2 green:0.13 blue:0.51 alpha:1];
+        weather = self.weather.hourlyForecast[indexPath.row];
     }
+    
+    controller.modalPresentationStyle = UIModalPresentationPopover;
+    UIPopoverPresentationController *popover = controller.popoverPresentationController;
+    
+    controller.preferredContentSize = CGSizeMake(self.view.frame.size.width * .8, 36 * 6);
+    controller.weather = weather;
+    controller.textColor = [self setColor];
+    
+    popover.delegate = self;
+    
+    popover.sourceView = self.parentViewController.view;
+    popover.sourceRect = CGRectMake(
+                                    self.parentViewController.view.center.x,
+                                    self.parentViewController.view.center.y,
+                                    self.parentViewController.view.frame.size.height,
+                                    self.parentViewController.view.frame.size.width
+                                    );
+    
+    
+    popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    [self presentViewController:controller animated:YES completion:nil];
+    
+    popoverIndexPath = indexPath;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+}
+
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController
+{
+    [self.tableView deselectRowAtIndexPath:popoverIndexPath animated:YES];
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+{
+    return UIModalPresentationNone;
 }
 
 - (void)setCellViewColor:(UITableViewCell *)cell row:(NSInteger)row;
@@ -168,6 +225,17 @@ typedef enum {
     forecastCell.bgView.backgroundColor = color;
 }
 
+- (UIColor *)setColor
+{
+    if ([TimeOfDay DayOrNight] == Day)
+    {
+        return [UIColor colorWithRed:0.17 green:0.45 blue:0.64 alpha:1];
+    }
+    else
+    {
+        return [UIColor colorWithRed:0.2 green:0.13 blue:0.51 alpha:1];
+    }
+}
 
 #pragma mark: - computed stuff
 

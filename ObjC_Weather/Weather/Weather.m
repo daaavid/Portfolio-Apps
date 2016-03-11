@@ -121,7 +121,8 @@ date                    :(NSDate *)date;
     NSNumber *precipProb    = (NSNumber *)dictionary[@"precipProbability"];
     NSNumber *precipIntens  = (NSNumber *)dictionary[@"precipIntensity"];
     NSNumber *windSpeed     = (NSNumber *)dictionary[@"windSpeed"];
-    NSNumber *humidity      = (NSNumber *)dictionary[@"dewPoint"];
+//    NSNumber *humidity      = (NSNumber *)dictionary[@"dewPoint"];
+    NSNumber *humidity      = (NSNumber *)dictionary[@"humidity"];
     
     weather = [[Weather alloc]
                init                     :temperature
@@ -164,6 +165,47 @@ date                    :(NSDate *)date;
     }
     
     return temperature;
+}
+
++ (NSString *)getPrecipIntensityString:(Weather *)weather
+{
+    //    NSNumber *intensity = weather.precipitationIntensity;
+    double intensity = [weather.precipitationIntensity doubleValue];
+    
+    NSString *intensityStr;
+    
+    if (intensity < 0.001)
+    {
+        intensityStr = @"No Rain";
+    }
+    else if (intensity > 0.001 && intensity < 0.017)
+    {
+        intensityStr = @"Very Light Rain";
+    }
+    else if (intensity > 0.017 && intensity < 0.1)
+    {
+        intensityStr = @"Light Rain";
+    }
+    else if (intensity > 0.1 && intensity < 0.4)
+    {
+        intensityStr = @"Moderate Rain";
+    }
+    else if (intensity > 0.4)
+    {
+        intensityStr = @"Heavy Rain";
+    }
+    else
+    {
+        NSLog(@"\nintensity: %.2f", intensity);
+    }
+    
+    return intensityStr;
+}
+
++ (NSString *)getPercentString:(NSNumber *)number
+{
+    double doubleNum = [number doubleValue] * 100;
+    return [NSString stringWithFormat:@"%.0f%%", doubleNum];
 }
 
 @end

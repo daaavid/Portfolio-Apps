@@ -97,7 +97,7 @@
     
     [self beginTaskWithURLString:urlString andTaskDescription:@"DarkSky"];
     
-//    NSLog(@"%@", urlString);
+    NSLog(@"%@", urlString);
 }
 
 - (void)searchForWeatherWithArray:(NSArray *)locations
