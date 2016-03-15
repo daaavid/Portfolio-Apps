@@ -18,7 +18,6 @@ protocol ZipPopViewControllerDelegate
 protocol DarkSkyAPIControllerProtocol
 {
     func darkSkySearchWasCompleted(results: NSDictionary, location: Location)
-    //    func darkSkySearchWasCompleted(results: NSDictionary)
 }
 
 protocol GoogleZipAPIControllerProtocol
@@ -107,8 +106,15 @@ class WeatherTableViewController: UITableViewController, ZipPopViewControllerDel
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
+        if let popVC = segue.destinationViewController as? ZipPopViewController
+        {
+            
+        }
+        
         if segue.identifier == "popover"
         {
+            
+            
             let popVC = segue.destinationViewController as! ZipPopViewController
             popVC.popoverPresentationController?.delegate = self
             popVC.delegate = self

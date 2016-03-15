@@ -20,7 +20,8 @@ typedef enum {
 @interface WeatherTableTableViewController ()
 <
 UIPopoverPresentationControllerDelegate,
-UIAdaptivePresentationControllerDelegate
+UIAdaptivePresentationControllerDelegate,
+UIGestureRecognizerDelegate
 >
 {
     NSArray *weekdays;
@@ -41,15 +42,17 @@ UIAdaptivePresentationControllerDelegate
 {
     [super viewDidLoad];
     
-    [self.segmentedControl setTintColor:[self setColor]];
-    
     weekdays = [TimeOfDay getUpcomingDaysOfWeekFromToday];
     forecastIdentifier = Daily;
+    
+    [self setUpSwipeRecognizerWithDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self setUpSwipeRecognizerWithDirection:UISwipeGestureRecognizerDirectionRight];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.segmentedControl setTintColor:[self setColor]];
 }
 
 #pragma mark - Table view data source
@@ -103,7 +106,6 @@ UIAdaptivePresentationControllerDelegate
         
         forecast = [[NSArray alloc] initWithArray:self.weather.hourlyForecast];
     }
-    
     
     if ([forecast firstObject])
     {
@@ -290,6 +292,29 @@ UIAdaptivePresentationControllerDelegate
     }
     
     [self.tableView reloadData];
+}
+
+- (void)setUpSwipeRecognizerWithDirection:(UISwipeGestureRecognizerDirection)direction
+{
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipe:)];
+    swipe.direction = direction;
+    swipe.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:swipe];
+    swipe.delegate = self;
+}
+
+- (void)didSwipe:(UISwipeGestureRecognizer *)sender
+{
+    if (sender.direction == UISwipeGestureRecognizerDirectionLeft)
+    {
+        self.segmentedControl.selectedSegmentIndex = 1;
+    }
+    else if (sender.direction == UISwipeGestureRecognizerDirectionRight)
+    {
+        self.segmentedControl.selectedSegmentIndex = 0;
+    }
+    
+    [self segmentedControlDidChangeValue:self.segmentedControl];
 }
 
 @end

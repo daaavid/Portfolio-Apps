@@ -18,7 +18,8 @@ UITextFieldDelegate,
 AnimationDidCompleteProtocol,
 LocationStringWasChosenProtocol,
 GoogleMapsAPIProtocol,
-LoadedLocationProtocol
+LoadedLocationProtocol,
+UIGestureRecognizerDelegate
 >
 {
     LocationSearchTableViewController *locationSearchTableViewController;
@@ -55,6 +56,8 @@ LoadedLocationProtocol
     self.segmentedControl.selectedSegmentIndex = 0;
     [self segmentedControlValueChanged:self.segmentedControl];
     
+    [self setUpSwipeRecognizerWithDirection:UISwipeGestureRecognizerDirectionRight];
+    [self setUpSwipeRecognizerWithDirection:UISwipeGestureRecognizerDirectionLeft];
 //    [self showSavedLocations];
 }
 
@@ -101,6 +104,12 @@ LoadedLocationProtocol
         apiController = [[APIController alloc] initWithGooglePlacesDelegate:self];
         [apiController searchGooglePlacesFor:self.searchBar.text];
 //        NSLog(@"%@", self.searchBar.text);
+    }
+    else
+    {
+        if (self.segmentedControl.selectedSegmentIndex == 1) {
+            [self setContainerViewHeight:@[@""]];
+        }
     }
 }
 
@@ -275,6 +284,28 @@ LoadedLocationProtocol
     self.searchBar.tintColor = color;
 }
 
+- (void)setUpSwipeRecognizerWithDirection:(UISwipeGestureRecognizerDirection)direction
+{
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipe:)];
+    swipe.direction = direction;
+    swipe.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:swipe];
+    swipe.delegate = self;
+}
+
+- (void)didSwipe:(UISwipeGestureRecognizer *)sender
+{
+    if (sender.direction == UISwipeGestureRecognizerDirectionLeft)
+    {
+        self.segmentedControl.selectedSegmentIndex = 1;
+    }
+    else if (sender.direction == UISwipeGestureRecognizerDirectionRight)
+    {
+        self.segmentedControl.selectedSegmentIndex = 0;
+    }
+    
+    [self segmentedControlValueChanged:self.segmentedControl];
+}
 /*
 #pragma mark - Navigation
 

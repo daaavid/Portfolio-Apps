@@ -28,7 +28,8 @@ UIPopoverPresentationControllerDelegate,
 AnimationDidCompleteProtocol,
 DarkSkyAPIProtocol,
 LocationWasChosenProtocol,
-LoadedLocationProtocol
+LoadedLocationProtocol,
+UIGestureRecognizerDelegate
 >
 {
     AnimationManager *animator;
@@ -90,6 +91,7 @@ LoadedLocationProtocol
 //        transformed = YES;
 //    }
     
+    [self setUpSwipeRecognizer];
     [self managedSavedData];
 }
 
@@ -209,13 +211,7 @@ LoadedLocationProtocol
     
     [ViewManager setBackgroundGradientToView:self.view];
     
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//
-//    });
-    
-
-    
-//    NSLog(@"%f", left.frame.origin.x);
+    //
     
     [self setInitialBGViewProperties];
 }
@@ -287,6 +283,20 @@ LoadedLocationProtocol
         [self.savedDataManager addOrRemoveLocation:self.location];
         [self refreshFavorites];
     }
+}
+
+- (void)setUpSwipeRecognizer
+{
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipe:)];
+    swipe.direction = UISwipeGestureRecognizerDirectionUp;
+    swipe.cancelsTouchesInView = NO;
+    [self.mainInfoView addGestureRecognizer:swipe];
+    swipe.delegate = self;
+}
+
+- (void)didSwipe:(id)sender
+{
+    [self performSegueWithIdentifier:@"ShowSettingsSegue" sender:nil];
 }
 
 - (void)refreshFavorites

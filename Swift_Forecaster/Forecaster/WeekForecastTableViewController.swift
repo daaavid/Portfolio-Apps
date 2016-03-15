@@ -21,6 +21,14 @@ class WeekForecastTableViewController: UITableViewController
         weekSummaryLabel.text = location?.weather?.weeksummary
 
         view.backgroundColor = UIColor(red: 0.0, green: 0.65, blue: 0.86, alpha: 1.0)
+        
+        let sampleArray: NSMutableArray = [];
+        
+        for _ in sampleArray
+        {
+            
+        }
+        
     }
     
     // MARK: - Table view data source
